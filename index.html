@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkanHawk — Portal de Recursos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --innovation:   #3B122D;
+      --innovation-2: #52193F;
+      --hightech:     #00809D;
+      --hightech-dim: rgba(0,128,157,0.08);
+      --hightech-border: rgba(0,128,157,0.25);
+      --fresh:        #AC9BA3;
+      --skblue:       #BFCDD9;
+
+      --bg:           #ffffff;
+      --bg-page:      #f7f7f8;
+      --bg-card:      #ffffff;
+      --bg-input:     #f4f4f6;
+      --bg-hover:     #f0f0f2;
+      --border:       rgba(0,0,0,0.08);
+      --border-md:    rgba(0,0,0,0.13);
+      --text-1:       #1a1a1a;
+      --text-2:       #555;
+      --text-3:       #999;
+      --danger:       #c0392b;
+      --danger-bg:    rgba(192,57,43,0.07);
+      --r-md:         6px;
+      --r-lg:         12px;
+      --font:         'Roboto', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg-page); color: var(--text-1); min-height: 100vh; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 54px;
+      background: var(--innovation);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .brand-name {
+      font-size: 17px; font-weight: 900; letter-spacing: .14em;
+      color: #fff;
+    }
+    .brand-name span { color: var(--hightech); }
+    .brand-sub {
+      font-size: 9px; font-weight: 300; letter-spacing: .22em;
+      color: rgba(172,155,163,0.8); text-transform: uppercase; margin-top: 2px;
+    }
+
+    .tab-group { display: flex; gap: 4px; }
+    .tab-btn {
+      padding: 5px 16px; border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
+      font-weight: 500; cursor: pointer; background: transparent;
+      color: rgba(255,255,255,0.6); transition: all .15s;
+    }
+    .tab-btn.active { background: var(--hightech); border-color: var(--hightech); color: #fff; }
+    .tab-btn:not(.active):hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ── LAYOUT ── */
+    .view { display: none; }
+    .view.active { display: block; }
+    .wrap { max-width: 700px; margin: 0 auto; padding: 28px 20px; }
+
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      color: var(--hightech); text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    /* ── STATS ── */
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-top: 3px solid var(--innovation);
+      border-radius: var(--r-lg); padding: 16px;
+    }
+    .stat-val { font-size: 28px; font-weight: 900; color: var(--innovation); line-height: 1; }
+    .stat-lbl { font-size: 11px; color: var(--text-3); margin-top: 4px; font-weight: 400; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px;
+    }
+
+    /* ── FORM ── */
+    .field-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .field-row label { font-size: 11px; color: var(--text-3); min-width: 90px; padding-top: 10px; letter-spacing: .04em; text-transform: uppercase; }
+    .field-row input {
+      flex: 1; padding: 9px 12px; border: 1px solid var(--border-md);
+      border-radius: var(--r-md); font-size: 13px; font-family: var(--font);
+      color: var(--text-1); background: var(--bg-input); transition: border-color .15s;
+    }
+    .field-row input:focus { outline: none; border-color: var(--hightech); }
+    .field-row input::placeholder { color: var(--text-3); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border: 1px solid var(--border-md);
+      border-radius: var(--r-md); font-size: 13px; font-family: var(--font);
+      font-weight: 500; cursor: pointer; background: transparent;
+      color: var(--text-2); transition: all .15s;
+    }
+    .btn:hover { background: var(--bg-hover); }
+    .btn.primary { background: var(--hightech); border-color: var(--hightech); color: #fff; }
+    .btn.primary:hover { background: #006f8a; border-color: #006f8a; }
+    .btn.secondary { background: var(--innovation); border-color: var(--innovation); color: #fff; }
+    .btn.secondary:hover { background: var(--innovation-2); border-color: var(--innovation-2); }
+    .btn.danger { border-color: rgba(192,57,43,0.3); color: var(--danger); }
+    .btn.danger:hover { background: var(--danger-bg); }
+    .btn.sm { padding: 5px 11px; font-size: 12px; }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500;
+    }
+    .badge.teal { background: var(--hightech-dim); color: var(--hightech); border: 1px solid var(--hightech-border); }
+
+    /* ── PRODUCT CARD ── */
+    .product-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 18px; margin-bottom: 10px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .product-card:hover { border-color: var(--hightech-border); box-shadow: 0 2px 12px rgba(0,128,157,0.07); }
+    .product-name { font-size: 15px; font-weight: 700; color: var(--text-1); }
+    .product-desc { font-size: 12px; color: var(--text-3); margin-top: 3px; }
+
+    .expand-btn {
+      background: none; border: 1px solid var(--border);
+      border-radius: var(--r-md); cursor: pointer; color: var(--text-3);
+      display: flex; align-items: center; padding: 5px 7px;
+      flex-shrink: 0; transition: all .15s;
+    }
+    .expand-btn:hover { border-color: var(--hightech); color: var(--hightech); }
+    .expand-panel { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 16px; }
+
+    /* ── TOKEN BOX ── */
+    .token-box {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: var(--innovation);
+      border-radius: var(--r-md); padding: 14px 18px; margin-bottom: 12px;
+    }
+    .token-label { font-size: 9px; color: rgba(172,155,163,0.8); margin-bottom: 6px; letter-spacing: .16em; font-weight: 500; text-transform: uppercase; }
+    .token-val { font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #fff; letter-spacing: .16em; }
+
+    /* ── LINK ROW ── */
+    .link-row {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 8px 12px;
+    }
+    .link-row span { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-row i { color: var(--hightech); font-size: 15px; flex-shrink: 0; }
+
+    /* ── RESOURCES LIST (admin) ── */
+    .res-row {
+      display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--r-md); margin-bottom: 6px; font-size: 13px;
+    }
+    .res-row i { font-size: 16px; color: var(--hightech); flex-shrink: 0; }
+    .add-res-row { display: flex; gap: 6px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+    .add-res-row input {
+      flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border-md);
+      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
+      color: var(--text-1); background: var(--bg-input);
+    }
+    .add-res-row input:focus { outline: none; border-color: var(--hightech); }
+    .add-res-row input::placeholder { color: var(--text-3); }
+    .add-res-row select {
+      padding: 7px 8px; border: 1px solid var(--border-md);
+      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
+      color: var(--text-1); background: var(--bg-input);
+    }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+
+    /* ── EMPTY ── */
+    .empty-state { text-align: center; padding: 48px 20px; color: var(--text-3); font-size: 13px; }
+    .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
+    .empty-state p { font-size: 12px; margin-top: 6px; }
+
+    /* ── CLIENT ACCESS ── */
+    .access-screen {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: calc(100vh - 54px);
+      padding: 40px 20px; text-align: center;
+      background: var(--bg-page);
+    }
+    .access-card {
+      width: 100%; max-width: 420px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .access-header {
+      background: var(--innovation);
+      padding: 28px 32px 24px;
+      text-align: center;
+    }
+    .access-logo { font-size: 22px; font-weight: 900; letter-spacing: .14em; color: #fff; }
+    .access-logo span { color: var(--hightech); }
+    .access-tagline { font-size: 9px; font-weight: 300; letter-spacing: .28em; color: rgba(172,155,163,0.7); text-transform: uppercase; margin-top: 4px; }
+    .access-divline { width: 32px; height: 2px; background: var(--hightech); margin: 16px auto 0; border-radius: 2px; }
+
+    .access-body { padding: 28px 28px 24px; }
+    .access-subtitle { font-size: 13px; color: var(--text-2); margin-bottom: 20px; text-align: left; font-weight: 400; }
+
+    .key-wrap { display: flex; gap: 8px; width: 100%; }
+    .key-wrap input {
+      flex: 1; padding: 11px 14px; border: 1px solid var(--border-md);
+      border-radius: var(--r-md); font-size: 15px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: .12em; color: var(--text-1);
+      background: var(--bg-input); text-transform: uppercase; transition: border-color .15s;
+    }
+    .key-wrap input:focus { outline: none; border-color: var(--hightech); }
+    .key-wrap input::placeholder { color: var(--text-3); font-size: 13px; letter-spacing: .04em; }
+    .error-msg { font-size: 12px; color: var(--danger); margin-top: 10px; display: none; text-align: left; }
+
+    /* ── PORTAL ── */
+    .portal-wrap { max-width: 700px; margin: 0 auto; padding: 28px 20px; display: none; }
+    .portal-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 22px;
+    }
+    .portal-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--hightech); margin-bottom: 5px; }
+    .portal-title { font-size: 22px; font-weight: 900; color: var(--text-1); }
+    .portal-desc { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+    .logout-btn {
+      display: flex; align-items: center; gap: 5px; font-size: 12px;
+      color: var(--text-3); cursor: pointer; background: none;
+      border: 1px solid var(--border); border-radius: var(--r-md);
+      font-family: var(--font); padding: 6px 12px; transition: all .15s;
+    }
+    .logout-btn:hover { color: var(--text-1); border-color: var(--border-md); }
+
+    .resource-card {
+      display: flex; align-items: center; gap: 16px; padding: 14px 18px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); text-decoration: none; margin-bottom: 10px;
+      transition: all .18s;
+    }
+    .resource-card:hover { border-color: var(--hightech-border); box-shadow: 0 2px 10px rgba(0,128,157,0.08); transform: translateX(2px); }
+    .res-icon { width: 42px; height: 42px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .res-icon.pdf   { background: rgba(59,18,45,0.08); } .res-icon.pdf   i { color: var(--innovation); font-size: 20px; }
+    .res-icon.video { background: var(--hightech-dim); }  .res-icon.video i { color: var(--hightech); font-size: 20px; }
+    .res-icon.image { background: rgba(191,205,217,0.3); } .res-icon.image i { color: #6a8fa8; font-size: 20px; }
+    .res-name { font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 2px; }
+    .res-type { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--innovation); color: #fff;
+      padding: 10px 18px; border-radius: var(--r-md);
+      font-size: 13px; font-family: var(--font);
+      opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { opacity: 1; }
+    .toast i { color: var(--hightech); font-size: 15px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .topbar { padding: 0 16px; }
+      .brand-sub { display: none; }
+      .wrap, .portal-wrap { padding: 20px 14px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stats-row .stat-card:last-child { grid-column: span 2; }
+      .field-row { flex-direction: column; }
+      .field-row label { min-width: unset; padding-top: 0; }
+      .token-val { font-size: 16px; }
+      .access-body { padding: 24px 20px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div>
+    <div class="brand-name">SKAN<span>HAWK</span></div>
+    <div class="brand-sub">Portal de Recursos</div>
+  </div>
+  <div class="tab-group">
+    <button class="tab-btn active" id="tab-admin" onclick="switchView('admin')">Admin</button>
+    <button class="tab-btn" id="tab-client" onclick="switchView('client')">Cliente</button>
+  </div>
+</header>
+
+<!-- ═══ ADMIN ═══ -->
+<div class="view active" id="view-admin">
+  <div class="wrap">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="s-products">0</div>
+        <div class="stat-lbl">Productos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-resources">0</div>
+        <div class="stat-lbl">Recursos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-shared">0</div>
+        <div class="stat-lbl">Compartidos</div>
+      </div>
+    </div>
+
+    <div class="section-label">Nuevo producto</div>
+    <div class="card">
+      <div class="field-row">
+        <label>Nombre</label>
+        <input id="pn-name" placeholder="Ej: Compresor CA-500" />
+      </div>
+      <div class="field-row">
+        <label>Descripción</label>
+        <input id="pn-desc" placeholder="Breve descripción del producto" />
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:6px">
+        <button class="btn primary" onclick="createProduct()">
+          <i class="ti ti-plus"></i> Crear producto
+        </button>
+      </div>
+    </div>
+
+    <div class="section-label">Productos registrados</div>
+    <div id="product-list"></div>
+
+  </div>
+</div>
+
+<!-- ═══ CLIENTE ═══ -->
+<div class="view" id="view-client">
+
+  <div class="access-screen" id="c-access">
+    <div class="access-card">
+      <div class="access-header">
+        <div class="access-logo">SKAN<span>HAWK</span></div>
+        <div class="access-tagline">Technology, Innovation &amp; Efficiency</div>
+        <div class="access-divline"></div>
+      </div>
+      <div class="access-body">
+        <div class="access-subtitle">Ingresa el código del producto que te enviaron</div>
+        <div class="key-wrap">
+          <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="14"
+            oninput="fmtToken(this)" onkeydown="if(event.key==='Enter')doAccess()" autocomplete="off" />
+          <button class="btn primary" onclick="doAccess()">
+            <i class="ti ti-door-enter"></i> Entrar
+          </button>
+        </div>
+        <div class="error-msg" id="token-error">Código inválido. Verifica el mensaje que recibiste.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="portal-wrap" id="c-portal">
+    <div class="portal-header">
+      <div>
+        <div class="portal-eyebrow">Producto · SkanHawk</div>
+        <div class="portal-title" id="p-name"></div>
+        <div class="portal-desc" id="p-desc"></div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">
+        <i class="ti ti-logout"></i> Salir
+      </button>
+    </div>
+    <div id="p-resources"></div>
+    <div class="empty-state" id="p-empty" style="display:none">
+      <i class="ti ti-file-off" style="color:var(--text-3)"></i>
+      Este producto aún no tiene recursos disponibles.
+      <p>Contacta al equipo de SkanHawk.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">
+  <i class="ti ti-check"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+let DB = { products: [] };
+
+function genToken() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const s = n => Array.from({length:n}, () => c[Math.floor(Math.random()*c.length)]).join('');
+  return s(4)+'-'+s(4)+'-'+s(4);
+}
+function iconType(t) { return t==='pdf'?'ti-file-type-pdf':t==='video'?'ti-brand-youtube':'ti-photo'; }
+function buildLink(token) { return window.location.origin+window.location.pathname+'?token='+token; }
+function updateStats() {
+  document.getElementById('s-products').textContent  = DB.products.length;
+  document.getElementById('s-resources').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
+  document.getElementById('s-shared').textContent    = DB.products.reduce((s,p)=>s+(p.shared||0),0);
+}
+function saveDB() { try { localStorage.setItem('skanhawk_portal', JSON.stringify(DB)); } catch(e){} }
+function loadDB() { try { const d=localStorage.getItem('skanhawk_portal'); if(d) DB=JSON.parse(d); } catch(e){} }
+
+let expanded = null;
+
+function renderProducts() {
+  const el = document.getElementById('product-list');
+  if (DB.products.length === 0) {
+    el.innerHTML = `<div class="empty-state"><i class="ti ti-package-off"></i>Aún no hay productos.<p>Crea el primero usando el formulario de arriba.</p></div>`;
+    updateStats(); return;
+  }
+  el.innerHTML = '';
+  DB.products.forEach(p => {
+    const isExp = expanded===p.id;
+    const link  = buildLink(p.token);
+    const div   = document.createElement('div');
+    div.className = 'product-card';
+    div.innerHTML = `
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div style="flex:1">
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div style="margin-top:8px">
+            <span class="badge teal"><i class="ti ti-files" style="font-size:10px"></i> ${p.resources.length} recurso${p.resources.length!==1?'s':''}</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleExpand('${p.id}')">
+          <i class="ti ti-${isExp?'chevron-up':'chevron-down'}" style="font-size:17px"></i>
+        </button>
+      </div>
+      ${isExp ? `
+      <div class="expand-panel">
+        <div class="section-label">Código de acceso</div>
+        <div class="token-box">
+          <div>
+            <div class="token-label">Código único del producto</div>
+            <div class="token-val">${p.token}</div>
+          </div>
+          <button class="btn sm" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff" onclick="copyText('${p.token}','Código copiado')">
+            <i class="ti ti-copy"></i> Copiar
+          </button>
+        </div>
+        <div class="section-label">Enlace directo</div>
+        <div class="link-row">
+          <i class="ti ti-link"></i>
+          <span title="${link}">${link}</span>
+          <button class="btn sm" onclick="copyLink('${link}','${p.id}')"><i class="ti ti-copy"></i> Copiar</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:6px;margin-bottom:4px">
+          <i class="ti ti-send" style="font-size:11px"></i> Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}
+        </div>
+        <div class="divider"></div>
+        <div class="section-label">Recursos del producto</div>
+        ${p.resources.length===0?'<p style="font-size:12px;color:var(--text-3);margin-bottom:10px">Sin recursos aún.</p>':''}
+        ${p.resources.map((r,i)=>`
+          <div class="res-row">
+            <i class="ti ${iconType(r.type)}"></i>
+            <span style="flex:1">${r.name}</span>
+            <a href="${r.url}" target="_blank" rel="noopener" style="color:var(--text-3);margin-right:8px;text-decoration:none"><i class="ti ti-external-link" style="font-size:13px"></i></a>
+            <span style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-right:10px">${r.type}</span>
+            <button class="btn sm danger" onclick="removeRes('${p.id}',${i})"><i class="ti ti-trash"></i></button>
+          </div>`).join('')}
+        <div class="add-res-row">
+          <select id="rt-${p.id}"><option value="pdf">PDF</option><option value="video">Video</option><option value="image">Imagen</option></select>
+          <input id="rn-${p.id}" placeholder="Nombre del recurso" style="flex:1.2" />
+          <input id="ru-${p.id}" placeholder="URL de Drive o YouTube" style="flex:2" />
+          <button class="btn sm primary" onclick="addRes('${p.id}')"><i class="ti ti-plus"></i></button>
+        </div>
+        <div class="divider"></div>
+        <button class="btn sm danger" onclick="deleteProduct('${p.id}')"><i class="ti ti-trash"></i> Eliminar producto</button>
+      </div>` : ''}
+    `;
+    el.appendChild(div);
+  });
+  updateStats();
+}
+
+function toggleExpand(id) { expanded=expanded===id?null:id; renderProducts(); }
+
+function createProduct() {
+  const name=document.getElementById('pn-name').value.trim();
+  const desc=document.getElementById('pn-desc').value.trim();
+  if(!name){document.getElementById('pn-name').focus();return;}
+  DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),shared:0,resources:[]});
+  document.getElementById('pn-name').value='';
+  document.getElementById('pn-desc').value='';
+  saveDB();renderProducts();
+}
+function deleteProduct(id) {
+  if(!confirm('¿Eliminar este producto y todos sus recursos?'))return;
+  DB.products=DB.products.filter(p=>p.id!==id);
+  if(expanded===id)expanded=null;
+  saveDB();renderProducts();
+}
+function addRes(pid) {
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  const name=document.getElementById('rn-'+pid).value.trim();
+  const url=document.getElementById('ru-'+pid).value.trim();
+  const type=document.getElementById('rt-'+pid).value;
+  if(!name||!url)return;
+  p.resources.push({name,type,url});
+  expanded=pid;saveDB();renderProducts();
+}
+function removeRes(pid,idx) {
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  p.resources.splice(idx,1);
+  expanded=pid;saveDB();renderProducts();
+}
+function copyText(text,msg) {
+  navigator.clipboard.writeText(text).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+  });
+  showToast(msg||'Copiado');
+}
+function copyLink(link,pid) {
+  copyText(link,'Enlace copiado');
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  p.shared=(p.shared||0)+1;expanded=pid;saveDB();renderProducts();
+}
+function fmtToken(input) {
+  let v=input.value.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
+  let out='';for(let i=0;i<v.length;i++){if(i===4||i===8)out+='-';out+=v[i];}
+  input.value=out;
+}
+function doAccess() {
+  const raw=document.getElementById('token-input').value.trim().toUpperCase();
+  const p=DB.products.find(x=>x.token===raw);
+  const err=document.getElementById('token-error');
+  err.style.display='none';
+  if(!p){err.style.display='block';return;}
+  document.getElementById('c-access').style.display='none';
+  document.getElementById('c-portal').style.display='block';
+  document.getElementById('p-name').textContent=p.name;
+  document.getElementById('p-desc').textContent=p.desc;
+  const res=document.getElementById('p-resources');
+  const empty=document.getElementById('p-empty');
+  res.innerHTML='';
+  if(p.resources.length===0){empty.style.display='block';return;}
+  empty.style.display='none';
+  p.resources.forEach(r=>{
+    const a=document.createElement('a');
+    a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';
+    a.className='resource-card';
+    a.innerHTML=`
+      <div class="res-icon ${r.type}"><i class="ti ${iconType(r.type)}"></i></div>
+      <div style="flex:1">
+        <div class="res-name">${r.name}</div>
+        <div class="res-type">${r.type==='pdf'?'Documento PDF':r.type==='video'?'Video':'Imagen'}</div>
+      </div>
+      <i class="ti ti-external-link" style="color:var(--text-3)"></i>
+    `;
+    res.appendChild(a);
+  });
+}
+function doLogout() {
+  document.getElementById('c-access').style.display='flex';
+  document.getElementById('c-portal').style.display='none';
+  document.getElementById('token-input').value='';
+  document.getElementById('token-error').style.display='none';
+}
+function switchView(v) {
+  document.getElementById('view-admin').classList.toggle('active',v==='admin');
+  document.getElementById('view-client').classList.toggle('active',v==='client');
+  document.getElementById('tab-admin').classList.toggle('active',v==='admin');
+  document.getElementById('tab-client').classList.toggle('active',v==='client');
+  if(v==='client'){
+    const tk=new URLSearchParams(window.location.search).get('token');
+    if(tk){document.getElementById('token-input').value=tk;doAccess();}
+  }
+}
+function showToast(msg) {
+  document.getElementById('toast-msg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+loadDB();renderProducts();
+const urlToken=new URLSearchParams(window.location.search).get('token');
+if(urlToken)switchView('client');
+</script>
+</body>
+</html>
