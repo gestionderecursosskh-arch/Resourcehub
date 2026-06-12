@@ -300,16 +300,8 @@ function iconEmoji(t){ return t==='pdf'?'📄':t==='video'?'▶':'🖼'; }
 function typeLabel(t){ return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'; }
 
 function fmtInput(input){
-  const v = input.value;
-  // Si contiene caracteres especiales de la clave admin, no tocar
-  if(/[+_@#!]/.test(v)) return;
-  // Si ya tiene guiones en posición admin o es muy largo, no tocar
-  if(v.length > 14) return;
-  // Formatear como token de producto XXXX-XXXX-XXXX
-  let clean = v.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
-  let out = '';
-  for(let i=0;i<clean.length;i++){if(i===4||i===8)out+='-';out+=clean[i];}
-  input.value = out;
+  // Sin formateo automático — el usuario escribe libremente.
+  // Los tokens de producto se normalizan a mayúsculas solo al hacer login.
 }
 
 function toast(msg){
