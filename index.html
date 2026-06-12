@@ -6,72 +6,77 @@
   <title>SkanHawk — Portal de Recursos</title>
   <style>
     :root {
-      --inn:      #3B122D;
-      --inn2:     #52193F;
-      --ht:       #00809D;
-      --ht-dim:   rgba(0,128,157,0.09);
-      --ht-b:     rgba(0,128,157,0.28);
-      --fresh:    #AC9BA3;
-      --skblue:   #BFCDD9;
-      --bg:       #f4f4f6;
-      --card:     #ffffff;
-      --border:   rgba(0,0,0,0.08);
-      --border-md:rgba(0,0,0,0.14);
-      --t1:       #1a1a1a;
-      --t2:       #555555;
-      --t3:       #999999;
-      --danger:   #c0392b;
-      --danger-bg:rgba(192,57,43,0.07);
-      --r:        8px;
-      --rl:       12px;
-      --font:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      --inn:       #3B122D;
+      --inn2:      #52193F;
+      --ht:        #00809D;
+      --ht-dim:    rgba(0,128,157,0.09);
+      --ht-b:      rgba(0,128,157,0.28);
+      --fresh:     #AC9BA3;
+      --bg:        #f4f4f6;
+      --card:      #ffffff;
+      --border:    rgba(0,0,0,0.08);
+      --border-md: rgba(0,0,0,0.14);
+      --t1:        #1a1a1a;
+      --t2:        #555555;
+      --t3:        #999999;
+      --danger:    #c0392b;
+      --danger-bg: rgba(192,57,43,0.07);
+      --r:         8px;
+      --rl:        12px;
+      --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { -webkit-text-size-adjust: 100%; }
     body { font-family: var(--font); background: var(--bg); color: var(--t1); min-height: 100vh; }
 
-    /* ────────── TOPBAR ────────── */
+    /* ── TOPBAR ── */
     .topbar {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: center;
       padding: 0 20px; height: 52px;
       background: var(--inn);
       position: sticky; top: 0; z-index: 50;
     }
-    .brand-name { font-size: 15px; font-weight: 900; letter-spacing: .12em; color: #fff; line-height:1; }
+    .brand-name { font-size: 15px; font-weight: 900; letter-spacing: .12em; color: #fff; line-height: 1; }
     .brand-name span { color: var(--ht); }
     .brand-sub  { font-size: 9px; font-weight: 400; letter-spacing: .2em; color: rgba(172,155,163,.65); text-transform: uppercase; margin-top: 2px; }
-    .topbar-right { display: flex; align-items: center; gap: 8px; }
-    #admin-toggle-btn {
-      font-size: 11px; font-weight: 600; letter-spacing: .06em; padding: 5px 14px;
-      border: 1px solid rgba(255,255,255,.2); border-radius: var(--r);
-      background: transparent; color: rgba(255,255,255,.65); cursor: pointer;
-      font-family: var(--font); transition: all .15s;
+
+    /* ── PANTALLA DE LOGIN ── */
+    .login-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - 52px); padding: 32px 16px;
     }
-    #admin-toggle-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
-    #admin-toggle-btn.active { background: var(--ht); border-color: var(--ht); color: #fff; }
+    .login-card {
+      width: 100%; max-width: 400px;
+      background: var(--card);
+      border-radius: var(--rl);
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(0,0,0,.10);
+    }
+    .login-hdr {
+      background: var(--inn);
+      padding: 32px 28px 26px;
+      text-align: center;
+    }
+    .login-logo { font-size: 22px; font-weight: 900; letter-spacing: .14em; color: #fff; }
+    .login-logo span { color: var(--ht); }
+    .login-tag  { font-size: 9px; font-weight: 400; letter-spacing: .26em; color: rgba(172,155,163,.7); text-transform: uppercase; margin-top: 4px; }
+    .login-line { width: 32px; height: 2px; background: var(--ht); margin: 16px auto 0; border-radius: 2px; }
+    .login-body { padding: 26px 24px 22px; }
+    .login-sub  { font-size: 13px; color: var(--t2); margin-bottom: 16px; line-height: 1.5; }
 
-    /* ────────── SHARED ────────── */
-    .hidden { display: none !important; }
-    .wrap   { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
-    .slabel { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--ht); text-transform: uppercase; margin-bottom: 10px; }
-    .card   { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 18px; margin-bottom: 12px; }
-    .divider{ border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .key-wrap { display: flex; gap: 8px; }
+    .key-wrap input {
+      flex: 1; padding: 12px 14px;
+      border: 1px solid var(--border-md); border-radius: var(--r);
+      font-size: 15px; font-family: 'Courier New', monospace;
+      letter-spacing: .1em; color: var(--t1); background: #f9f9fb;
+      text-transform: uppercase; transition: border-color .15s;
+    }
+    .key-wrap input:focus { outline: none; border-color: var(--ht); }
+    .key-wrap input::placeholder { color: var(--t3); font-size: 13px; letter-spacing: .04em; font-family: var(--font); }
+    .err { font-size: 12px; color: var(--danger); margin-top: 10px; display: none; }
 
-    /* ────────── STATS ────────── */
-    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-    .stat { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--inn); border-radius: var(--rl); padding: 14px 16px; }
-    .stat-v { font-size: 26px; font-weight: 900; color: var(--inn); line-height: 1; }
-    .stat-l { font-size: 11px; color: var(--t3); margin-top: 4px; }
-
-    /* ────────── FORM ────────── */
-    .frow { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-    .frow label { font-size: 10px; color: var(--t3); min-width: 86px; padding-top: 11px; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
-    .frow input { flex: 1; padding: 9px 12px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); color: var(--t1); background: #f9f9fb; transition: border-color .15s; }
-    .frow input:focus { outline: none; border-color: var(--ht); }
-    .frow input::placeholder { color: var(--t3); }
-
-    /* ────────── BUTTONS ────────── */
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); font-weight: 500; cursor: pointer; background: transparent; color: var(--t2); transition: all .15s; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); font-weight: 500; cursor: pointer; background: transparent; color: var(--t2); transition: all .15s; white-space: nowrap; }
     .btn:hover { background: #ebebed; }
     .btn.primary { background: var(--ht); border-color: var(--ht); color: #fff; }
     .btn.primary:hover { background: #006f8a; }
@@ -80,69 +85,76 @@
     .btn.danger { border-color: rgba(192,57,43,.25); color: var(--danger); }
     .btn.danger:hover { background: var(--danger-bg); }
     .btn.sm { padding: 5px 10px; font-size: 12px; }
+    .btn.ghost { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.75); }
+    .btn.ghost:hover { background: rgba(255,255,255,.2); color: #fff; }
 
-    /* ────────── BADGE ────────── */
+    /* ── SHARED ── */
+    .hidden  { display: none !important; }
+    .wrap    { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+    .slabel  { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--ht); text-transform: uppercase; margin-bottom: 10px; }
+    .card    { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 18px; margin-bottom: 12px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+    /* ── ADMIN TOPBAR EXTRA ── */
+    .admin-topbar-extra {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 20px;
+      background: #f0eaf2;
+      border-bottom: 1px solid rgba(59,18,45,.12);
+      font-size: 12px; color: var(--inn2); font-weight: 500;
+    }
+
+    /* ── STATS ── */
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--inn); border-radius: var(--rl); padding: 14px 16px; }
+    .stat-v { font-size: 26px; font-weight: 900; color: var(--inn); line-height: 1; }
+    .stat-l { font-size: 11px; color: var(--t3); margin-top: 4px; }
+
+    /* ── FORM ── */
+    .frow { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .frow label { font-size: 10px; color: var(--t3); min-width: 86px; padding-top: 11px; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
+    .frow input { flex: 1; padding: 9px 12px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); color: var(--t1); background: #f9f9fb; transition: border-color .15s; }
+    .frow input:focus { outline: none; border-color: var(--ht); }
+    .frow input::placeholder { color: var(--t3); }
+
+    /* ── BADGE ── */
     .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
     .badge.teal { background: var(--ht-dim); color: var(--ht); border: 1px solid var(--ht-b); }
 
-    /* ────────── PRODUCT CARD ────────── */
+    /* ── PRODUCT CARD ── */
     .pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 16px; margin-bottom: 10px; transition: border-color .2s, box-shadow .2s; }
     .pcard:hover { border-color: var(--ht-b); box-shadow: 0 2px 10px rgba(0,128,157,.06); }
     .pname { font-size: 14px; font-weight: 700; }
-    .pdesc-text { font-size: 12px; color: var(--t3); margin-top: 2px; }
-    .xbtn { background: none; border: 1px solid var(--border); border-radius: var(--r); cursor: pointer; color: var(--t3); display: flex; align-items: center; padding: 5px 8px; flex-shrink: 0; font-size: 13px; transition: all .15s; }
+    .pdesc-txt { font-size: 12px; color: var(--t3); margin-top: 2px; }
+    .xbtn { background: none; border: 1px solid var(--border); border-radius: var(--r); cursor: pointer; color: var(--t3); display: flex; align-items: center; padding: 5px 8px; font-size: 13px; flex-shrink: 0; transition: all .15s; }
     .xbtn:hover { border-color: var(--ht); color: var(--ht); }
     .xpanel { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
 
-    /* ────────── TOKEN BOX ────────── */
-    .tbox { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--inn); border-radius: var(--r); padding: 12px 16px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+    /* ── TOKEN BOX ── */
+    .tbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--inn); border-radius: var(--r); padding: 12px 16px; margin-bottom: 10px; flex-wrap: wrap; }
     .tlabel { font-size: 9px; color: rgba(172,155,163,.8); margin-bottom: 5px; letter-spacing: .14em; font-weight: 600; text-transform: uppercase; }
     .tval { font-family: 'Courier New', monospace; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .14em; }
 
-    /* ────────── LINK ROW ────────── */
+    /* ── LINK ROW ── */
     .lrow { display: flex; align-items: center; gap: 8px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); padding: 8px 12px; }
     .lrow span { font-family: 'Courier New', monospace; font-size: 11px; color: var(--t3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* ────────── RESOURCE ROW (admin) ────────── */
+    /* ── RESOURCE ROW (admin) ── */
     .rrow-admin { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 6px; font-size: 13px; }
-    .rrow-icon { font-size: 16px; flex-shrink: 0; }
 
-    /* ────────── ADD RESOURCE ────────── */
+    /* ── ADD RESOURCE ── */
     .addrow { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
     .addrow input { flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
     .addrow input:focus { outline: none; border-color: var(--ht); }
     .addrow input::placeholder { color: var(--t3); }
     .addrow select { padding: 7px 8px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
-    .hint { font-size: 11px; color: var(--t3); margin-top: 6px; line-height: 1.5; }
+    .hint { font-size: 11px; color: var(--t3); margin-top: 6px; line-height: 1.6; }
 
-    /* ────────── EMPTY STATE ────────── */
+    /* ── EMPTY ── */
     .empty { text-align: center; padding: 48px 20px; color: var(--t3); font-size: 13px; }
     .empty .eicon { font-size: 40px; margin-bottom: 10px; display: block; }
 
-    /* ────────── CLIENT ACCESS ────────── */
-    .access-screen {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: calc(100vh - 52px); padding: 32px 16px;
-    }
-    .access-card { width: 100%; max-width: 400px; background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
-    .access-hdr { background: var(--inn); padding: 26px 24px 22px; text-align: center; }
-    .access-logo { font-size: 19px; font-weight: 900; letter-spacing: .12em; color: #fff; }
-    .access-logo span { color: var(--ht); }
-    .access-tag { font-size: 9px; font-weight: 400; letter-spacing: .24em; color: rgba(172,155,163,.7); text-transform: uppercase; margin-top: 3px; }
-    .access-line { width: 30px; height: 2px; background: var(--ht); margin: 14px auto 0; border-radius: 2px; }
-    .access-body { padding: 22px 22px 20px; }
-    .access-sub { font-size: 13px; color: var(--t2); margin-bottom: 14px; }
-    .key-wrap { display: flex; gap: 8px; }
-    .key-wrap input {
-      flex: 1; padding: 11px 12px; border: 1px solid var(--border-md); border-radius: var(--r);
-      font-size: 15px; font-family: 'Courier New', monospace; letter-spacing: .12em;
-      color: var(--t1); background: #f9f9fb; text-transform: uppercase; transition: border-color .15s;
-    }
-    .key-wrap input:focus { outline: none; border-color: var(--ht); }
-    .key-wrap input::placeholder { color: var(--t3); font-size: 13px; letter-spacing: .04em; }
-    .err { font-size: 12px; color: var(--danger); margin-top: 8px; display: none; }
-
-    /* ────────── CLIENT PORTAL ────────── */
+    /* ── CLIENT PORTAL ── */
     .portal-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
     .phdr { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
     .peyebrow { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ht); margin-bottom: 4px; }
@@ -151,7 +163,7 @@
     .logout-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--t3); cursor: pointer; background: none; border: 1px solid var(--border); border-radius: var(--r); font-family: var(--font); padding: 7px 13px; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
     .logout-btn:hover { color: var(--t1); border-color: var(--border-md); }
 
-    /* ────────── RESOURCE CARD (client) ────────── */
+    /* ── RESOURCE CARD (cliente) ── */
     .res-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); margin-bottom: 18px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
     .res-card-hdr { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fafafa; border-bottom: 1px solid var(--border); }
     .res-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -161,54 +173,71 @@
     .res-card-name { font-size: 14px; font-weight: 600; }
     .res-card-type { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
 
-    /* EMBEDS */
+    /* ── EMBEDS ── */
     .embed-pdf   { width: 100%; height: 500px; border: none; display: block; background: #f0f0f0; }
     .embed-video { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
     .embed-img   { width: 100%; max-height: 480px; object-fit: contain; display: block; background: #f9f9f9; padding: 8px; }
     .embed-open  { display: flex; align-items: center; justify-content: center; padding: 20px; }
     .embed-open a { color: var(--ht); font-size: 14px; font-weight: 500; text-decoration: none; padding: 10px 20px; border: 1px solid var(--ht-b); border-radius: var(--r); background: var(--ht-dim); }
-    .embed-open a:hover { background: rgba(0,128,157,.15); }
 
-    /* ────────── TOAST ────────── */
-    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--inn); color: #fff; padding: 10px 18px; border-radius: var(--r); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100; max-width: 240px; }
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--inn); color: #fff; padding: 10px 18px; border-radius: var(--r); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100; }
     .toast.show { opacity: 1; }
 
-    /* ────────── RESPONSIVE ────────── */
+    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .stats-row { grid-template-columns: 1fr 1fr; }
       .stats-row .stat:last-child { grid-column: span 2; }
       .frow { flex-direction: column; }
       .frow label { min-width: unset; padding-top: 0; }
-      .tval { font-size: 15px; }
+      .tval { font-size: 14px; letter-spacing: .08em; }
       .embed-pdf { height: 320px; }
       .ptitle { font-size: 17px; }
       .phdr { flex-direction: column; }
-    }
-    @media (max-width: 380px) {
-      .tval { font-size: 13px; letter-spacing: .08em; }
-      .access-hdr { padding: 20px 16px 18px; }
-      .access-body { padding: 18px 16px; }
+      .login-hdr { padding: 24px 20px 20px; }
+      .login-body { padding: 20px 18px 18px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══════════════ TOPBAR ══════════════ -->
+<!-- ══ TOPBAR ══ -->
 <header class="topbar">
   <div>
     <div class="brand-name">SKAN<span>HAWK</span></div>
     <div class="brand-sub">Portal de Recursos</div>
   </div>
-  <div class="topbar-right">
-    <!-- Solo visible si ?admin= está en la URL -->
-    <button id="admin-toggle-btn" class="hidden" onclick="toggleAdminPanel()">⚙ Admin</button>
-  </div>
 </header>
 
-<!-- ══════════════ PANEL ADMIN ══════════════ -->
-<div id="admin-panel" class="hidden">
-  <div class="wrap">
+<!-- ══ ADMIN BANNER (solo visible en admin) ══ -->
+<div id="admin-banner" class="admin-topbar-extra hidden">
+  <span>⚙ Modo administrador</span>
+  <button class="btn sm ghost" style="background:var(--inn);border-color:var(--inn2);color:#fff" onclick="doLogout()">↩ Cerrar sesión</button>
+</div>
 
+<!-- ══ LOGIN ══ -->
+<div id="view-login" class="login-screen">
+  <div class="login-card">
+    <div class="login-hdr">
+      <div class="login-logo">SKAN<span>HAWK</span></div>
+      <div class="login-tag">Technology · Innovation · Efficiency</div>
+      <div class="login-line"></div>
+    </div>
+    <div class="login-body">
+      <div class="login-sub">Ingresa el código que te enviaron para acceder a tus recursos</div>
+      <div class="key-wrap">
+        <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="32"
+          oninput="fmtInput(this)" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="off" />
+        <button class="btn primary" onclick="doLogin()">Entrar</button>
+      </div>
+      <div class="err" id="login-err">Código inválido. Verifica el mensaje que recibiste.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL ADMIN ══ -->
+<div id="view-admin" class="hidden">
+  <div class="wrap">
     <div class="stats-row">
       <div class="stat"><div class="stat-v" id="s-p">0</div><div class="stat-l">Productos</div></div>
       <div class="stat"><div class="stat-v" id="s-r">0</div><div class="stat-l">Recursos</div></div>
@@ -218,7 +247,7 @@
     <div class="slabel">Nuevo producto</div>
     <div class="card">
       <div class="frow"><label>Nombre</label><input id="pn" placeholder="Ej: Compresor CA-500" /></div>
-      <div class="frow"><label>Descripción</label><input id="pd" placeholder="Breve descripción" /></div>
+      <div class="frow"><label>Descripción</label><input id="pd" placeholder="Breve descripción del producto" /></div>
       <div style="display:flex;justify-content:flex-end;margin-top:6px">
         <button class="btn primary" onclick="createProduct()">+ Crear producto</button>
       </div>
@@ -226,31 +255,10 @@
 
     <div class="slabel">Productos registrados</div>
     <div id="plist"></div>
-
   </div>
 </div>
 
-<!-- ══════════════ VISTA CLIENTE — ACCESO ══════════════ -->
-<div id="view-access" class="access-screen">
-  <div class="access-card">
-    <div class="access-hdr">
-      <div class="access-logo">SKAN<span>HAWK</span></div>
-      <div class="access-tag">Technology · Innovation · Efficiency</div>
-      <div class="access-line"></div>
-    </div>
-    <div class="access-body">
-      <div class="access-sub">Ingresa el código del producto que te enviaron</div>
-      <div class="key-wrap">
-        <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="14"
-          oninput="fmtToken(this)" onkeydown="if(event.key==='Enter')doAccess()" autocomplete="off" />
-        <button class="btn primary" onclick="doAccess()">Entrar</button>
-      </div>
-      <div class="err" id="token-err">Código inválido. Verifica el mensaje que recibiste.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ VISTA CLIENTE — PORTAL ══════════════ -->
+<!-- ══ PORTAL CLIENTE ══ -->
 <div id="view-portal" class="hidden">
   <div class="portal-wrap">
     <div class="phdr">
@@ -270,100 +278,37 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════
-   CLAVE ADMIN — cámbiala por la tuya
-   Acceso: index.html?admin=Skanhawk_247+
-   ═══════════════════════════════════════ */
+/* ══════════════════════════════════════
+   CLAVE ADMIN — solo tú la conoces
+   ══════════════════════════════════════ */
 const ADMIN_KEY = 'Skanhawk_247+';
 
-/* ─── ESTADO ─── */
-let DB  = { products: [] };
-let exp = null;   // producto expandido en admin
-let IS_ADMIN = false;
-let adminPanelOpen = false;
-
-/* ─── INIT ─── */
-(function init(){
-  load();
-  const params = new URLSearchParams(window.location.search);
-  const token  = params.get('token');
-  const adminQ = params.get('admin');
-
-  IS_ADMIN = (adminQ === ADMIN_KEY);
-
-  if(IS_ADMIN){
-    // Mostrar botón admin en topbar
-    const btn = document.getElementById('admin-toggle-btn');
-    btn.classList.remove('hidden');
-    // Abrir admin por defecto si no hay token
-    if(!token){
-      showAdmin();
-    } else {
-      // Tiene token Y es admin: mostrar acceso cliente, admin disponible en botón
-      showClientAccess();
-      document.getElementById('token-input').value = token;
-      doAccess();
-    }
-  } else if(token){
-    showClientAccess();
-    document.getElementById('token-input').value = token;
-    doAccess();
-  } else {
-    showClientAccess();
-  }
-})();
-
-/* ─── NAVEGACIÓN ─── */
-function showAdmin(){
-  document.getElementById('admin-panel').classList.remove('hidden');
-  document.getElementById('view-access').classList.add('hidden');
-  document.getElementById('view-portal').classList.add('hidden');
-  document.getElementById('admin-toggle-btn').classList.add('active');
-  adminPanelOpen = true;
-  render();
-}
-
-function showClientAccess(){
-  document.getElementById('admin-panel').classList.add('hidden');
-  document.getElementById('view-access').classList.remove('hidden');
-  document.getElementById('view-portal').classList.add('hidden');
-  if(IS_ADMIN) document.getElementById('admin-toggle-btn').classList.remove('active');
-  adminPanelOpen = false;
-}
-
-function toggleAdminPanel(){
-  if(adminPanelOpen){
-    showClientAccess();
-  } else {
-    showAdmin();
-  }
-}
-
-/* ─── STORAGE ─── */
+/* ── STORAGE ── */
+let DB = { products: [] };
 function save(){ try{ localStorage.setItem('skanhawk_portal', JSON.stringify(DB)); }catch(e){} }
 function load(){ try{ const d=localStorage.getItem('skanhawk_portal'); if(d) DB=JSON.parse(d); }catch(e){} }
 
-/* ─── UTILS ─── */
+/* ── UTILS ── */
 function genToken(){
   const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const s=n=>Array.from({length:n},()=>c[Math.floor(Math.random()*c.length)]).join('');
   return s(4)+'-'+s(4)+'-'+s(4);
 }
-function buildLink(token){
-  const base = window.location.origin + window.location.pathname;
-  return base + '?token=' + token;
-}
+function buildLink(token){ return window.location.origin+window.location.pathname+'?token='+token; }
 function iconEmoji(t){ return t==='pdf'?'📄':t==='video'?'▶':'🖼'; }
 function typeLabel(t){ return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'; }
-function fmtToken(input){
+
+function fmtInput(input){
+  // Si es la clave admin no formatea
+  if(input.value.startsWith('S')||input.value.length>14) return;
   let v=input.value.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
   let out='';for(let i=0;i<v.length;i++){if(i===4||i===8)out+='-';out+=v[i];}
   input.value=out;
 }
+
 function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
@@ -378,16 +323,74 @@ function cp(text,msg){
   toast(msg||'Copiado');
 }
 
-/* ─── ADMIN: STATS ─── */
+/* ── VISTAS ── */
+function showOnly(id){
+  ['view-login','view-admin','view-portal'].forEach(v=>{
+    document.getElementById(v).classList.toggle('hidden', v!==id);
+  });
+}
+
+/* ── LOGIN ── */
+let exp = null;
+
+function doLogin(){
+  const raw = document.getElementById('token-input').value.trim();
+  const err = document.getElementById('login-err');
+  err.style.display = 'none';
+
+  // ¿Es el admin?
+  if(raw === ADMIN_KEY){
+    document.getElementById('admin-banner').classList.remove('hidden');
+    showOnly('view-admin');
+    renderAdmin();
+    return;
+  }
+
+  // ¿Es un token de producto?
+  const token = raw.toUpperCase();
+  const p = DB.products.find(x=>x.token===token);
+  if(!p){ err.style.display='block'; return; }
+
+  // Mostrar portal
+  document.getElementById('admin-banner').classList.add('hidden');
+  showOnly('view-portal');
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-desc').textContent = p.desc||'';
+  const resEl   = document.getElementById('p-resources');
+  const emptyEl = document.getElementById('p-empty');
+  resEl.innerHTML = '';
+  if(!p.resources||!p.resources.length){ emptyEl.classList.remove('hidden'); return; }
+  emptyEl.classList.add('hidden');
+  resEl.innerHTML = p.resources.map(buildResCard).join('');
+}
+
+function doLogout(){
+  document.getElementById('admin-banner').classList.add('hidden');
+  document.getElementById('token-input').value = '';
+  document.getElementById('login-err').style.display = 'none';
+  showOnly('view-login');
+}
+
+/* ── AUTO-TOKEN desde URL ── */
+(function(){
+  load();
+  const tk = new URLSearchParams(window.location.search).get('token');
+  if(tk){
+    document.getElementById('token-input').value = tk.toUpperCase();
+    doLogin();
+  }
+})();
+
+/* ── ADMIN: STATS ── */
 function stats(){
   document.getElementById('s-p').textContent = DB.products.length;
   document.getElementById('s-r').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
   document.getElementById('s-s').textContent = DB.products.reduce((s,p)=>s+(p.shared||0),0);
 }
 
-/* ─── ADMIN: RENDER PRODUCTOS ─── */
-function render(){
-  const el=document.getElementById('plist');
+/* ── ADMIN: RENDER ── */
+function renderAdmin(){
+  const el = document.getElementById('plist');
   if(!DB.products.length){
     el.innerHTML='<div class="empty"><span class="eicon">📦</span>Aún no hay productos.<br><small>Crea el primero arriba.</small></div>';
     stats(); return;
@@ -402,44 +405,39 @@ function render(){
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
         <div style="flex:1">
           <div class="pname">${p.name}</div>
-          <div class="pdesc-text">${p.desc||''}</div>
-          <div style="margin-top:8px">
-            <span class="badge teal">${p.resources.length} recurso${p.resources.length!==1?'s':''}</span>
-          </div>
+          <div class="pdesc-txt">${p.desc||''}</div>
+          <div style="margin-top:8px"><span class="badge teal">${p.resources.length} recurso${p.resources.length!==1?'s':''}</span></div>
         </div>
         <button class="xbtn" onclick="toggle('${p.id}')">${isExp?'▲':'▼'}</button>
       </div>
       ${isExp?`
       <div class="xpanel">
-        <div class="slabel">Código de acceso</div>
+        <div class="slabel">Código de acceso del cliente</div>
         <div class="tbox">
           <div>
-            <div class="tlabel">Código único — comparte este código con el cliente</div>
+            <div class="tlabel">Código único del producto</div>
             <div class="tval">${p.token}</div>
           </div>
           <button class="btn sm" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);color:#fff;flex-shrink:0"
             onclick="cp('${p.token}','Código copiado')">Copiar</button>
         </div>
-        <div class="slabel">Enlace directo (incluye el código)</div>
+        <div class="slabel">Enlace directo</div>
         <div class="lrow">
           <span title="${link}">${link}</span>
           <button class="btn sm" onclick="cpLink('${link}','${p.id}')">Copiar</button>
         </div>
-        <div style="font-size:11px;color:var(--t3);margin-top:5px;margin-bottom:4px">
-          Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}
-        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:5px">Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}</div>
         <div class="divider"></div>
-        <div class="slabel">Vista previa del cliente</div>
-        <button class="btn sm" style="margin-bottom:12px" onclick="previewProduct('${p.id}')">👁 Ver como cliente</button>
+        <button class="btn sm wine" style="margin-bottom:12px" onclick="previewProduct('${p.id}')">👁 Ver como cliente</button>
         <div class="divider"></div>
         <div class="slabel">Recursos del producto</div>
         ${p.resources.length===0?'<p style="font-size:12px;color:var(--t3);margin-bottom:8px">Sin recursos aún.</p>':''}
         ${p.resources.map((r,i)=>`
           <div class="rrow-admin">
-            <span class="rrow-icon">${iconEmoji(r.type)}</span>
+            <span style="font-size:16px;flex-shrink:0">${iconEmoji(r.type)}</span>
             <div style="flex:1">
               <div style="font-size:13px;font-weight:500">${r.name}</div>
-              <div style="font-size:11px;color:var(--t3);">${r.type.toUpperCase()}${r.ytid?' · YouTube':r.url?' · '+r.url.slice(0,44)+'…':''}</div>
+              <div style="font-size:11px;color:var(--t3)">${r.type.toUpperCase()}${r.ytid?' · YouTube':r.url?' · '+r.url.slice(0,40)+'…':''}</div>
             </div>
             <button class="btn sm danger" onclick="delRes('${p.id}',${i})">✕</button>
           </div>`).join('')}
@@ -449,13 +447,13 @@ function render(){
             <option value="video">Video (YouTube)</option>
             <option value="image">Imagen</option>
           </select>
-          <input id="rn-${p.id}" placeholder="Nombre visible para el cliente" style="flex:1.2" />
+          <input id="rn-${p.id}" placeholder="Nombre del recurso" style="flex:1.2" />
           <input id="ru-${p.id}" placeholder="URL de Drive o YouTube" style="flex:2" />
           <button class="btn sm primary" onclick="addRes('${p.id}')">+ Agregar</button>
         </div>
         <p class="hint">
-          📄 <b>PDF / Imagen Drive:</b> Abre el archivo → Compartir → "Cualquiera con el enlace puede ver" → copia la URL.<br>
-          ▶ <b>Video YouTube:</b> Pega la URL normal del video (ej: https://youtube.com/watch?v=xxx).
+          📄 <b>PDF / Imagen Drive:</b> Archivo → Compartir → "Cualquiera con el enlace puede ver" → copia la URL.<br>
+          ▶ <b>Video YouTube:</b> Pega la URL normal del video.
         </p>
         <div class="divider"></div>
         <button class="btn sm danger" onclick="delProd('${p.id}')">🗑 Eliminar producto</button>
@@ -466,9 +464,9 @@ function render(){
   stats();
 }
 
-function toggle(id){ exp=exp===id?null:id; render(); }
+function toggle(id){ exp=exp===id?null:id; renderAdmin(); }
 
-/* ─── ADMIN: CRUD ─── */
+/* ── ADMIN: CRUD ── */
 function createProduct(){
   const name=document.getElementById('pn').value.trim();
   const desc=document.getElementById('pd').value.trim();
@@ -476,14 +474,14 @@ function createProduct(){
   DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),shared:0,resources:[]});
   document.getElementById('pn').value='';
   document.getElementById('pd').value='';
-  save(); render();
+  save(); renderAdmin();
 }
 
 function delProd(id){
   if(!confirm('¿Eliminar este producto y todos sus recursos?'))return;
   DB.products=DB.products.filter(p=>p.id!==id);
   if(exp===id)exp=null;
-  save(); render();
+  save(); renderAdmin();
 }
 
 function addRes(pid){
@@ -492,9 +490,7 @@ function addRes(pid){
   const url =document.getElementById('ru-'+pid).value.trim();
   const type=document.getElementById('rt-'+pid).value;
   if(!name||!url)return;
-
   let embedUrl=url, ytid=null;
-
   if(type==='video'){
     const m=url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
     if(m) ytid=m[1];
@@ -507,63 +503,43 @@ function addRes(pid){
     const m=url.match(/\/file\/d\/([^/?#]+)/);
     if(m) embedUrl=`https://drive.google.com/uc?export=view&id=${m[1]}`;
   }
-
   p.resources.push({name,type,url:embedUrl,ytid});
   document.getElementById('rn-'+pid).value='';
   document.getElementById('ru-'+pid).value='';
-  exp=pid; save(); render();
+  exp=pid; save(); renderAdmin();
 }
 
 function delRes(pid,idx){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
   p.resources.splice(idx,1);
-  exp=pid; save(); render();
+  exp=pid; save(); renderAdmin();
 }
 
 function cpLink(link,pid){
   cp(link,'Enlace copiado');
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  p.shared=(p.shared||0)+1; exp=pid; save(); render();
+  p.shared=(p.shared||0)+1; exp=pid; save(); renderAdmin();
 }
 
-/* ─── ADMIN: VER COMO CLIENTE ─── */
 function previewProduct(pid){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  document.getElementById('token-input').value=p.token;
-  showClientAccess();
-  doAccess();
-}
-
-/* ─── CLIENTE: ACCESO ─── */
-function doAccess(){
-  const raw=document.getElementById('token-input').value.trim().toUpperCase();
-  const p=DB.products.find(x=>x.token===raw);
-  document.getElementById('token-err').style.display='none';
-  if(!p){document.getElementById('token-err').style.display='block';return;}
-
-  // Mostrar portal
-  document.getElementById('view-access').classList.add('hidden');
-  document.getElementById('view-portal').classList.remove('hidden');
-  document.getElementById('admin-panel').classList.add('hidden');
+  document.getElementById('admin-banner').classList.add('hidden');
+  showOnly('view-portal');
   document.getElementById('p-name').textContent=p.name;
   document.getElementById('p-desc').textContent=p.desc||'';
-
   const resEl=document.getElementById('p-resources');
   const emptyEl=document.getElementById('p-empty');
   resEl.innerHTML='';
-
-  if(!p.resources||!p.resources.length){
-    emptyEl.classList.remove('hidden'); return;
-  }
+  if(!p.resources||!p.resources.length){emptyEl.classList.remove('hidden');return;}
   emptyEl.classList.add('hidden');
-  resEl.innerHTML=p.resources.map(buildResourceCard).join('');
+  resEl.innerHTML=p.resources.map(buildResCard).join('');
 }
 
-function buildResourceCard(r){
+/* ── CLIENTE: RENDER RECURSOS ── */
+function buildResCard(r){
   let body='';
   if(r.type==='video'&&r.ytid){
-    body=`<iframe class="embed-video"
-      src="https://www.youtube.com/embed/${r.ytid}"
+    body=`<iframe class="embed-video" src="https://www.youtube.com/embed/${r.ytid}"
       allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
       allowfullscreen loading="lazy"></iframe>`;
   } else if(r.type==='pdf'&&r.url){
@@ -586,18 +562,6 @@ function buildResourceCard(r){
       </div>
       <div>${body}</div>
     </div>`;
-}
-
-/* ─── CLIENTE: SALIR ─── */
-function doLogout(){
-  document.getElementById('view-portal').classList.add('hidden');
-  document.getElementById('token-input').value='';
-  document.getElementById('token-err').style.display='none';
-  if(IS_ADMIN && adminPanelOpen){
-    showAdmin();
-  } else {
-    showClientAccess();
-  }
 }
 </script>
 </body>
