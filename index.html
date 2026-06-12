@@ -135,9 +135,7 @@
     .tlabel { font-size: 9px; color: rgba(172,155,163,.8); margin-bottom: 5px; letter-spacing: .14em; font-weight: 600; text-transform: uppercase; }
     .tval { font-family: 'Courier New', monospace; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .14em; }
 
-    /* ── LINK ROW ── */
-    .lrow { display: flex; align-items: center; gap: 8px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); padding: 8px 12px; }
-    .lrow span { font-family: 'Courier New', monospace; font-size: 11px; color: var(--t3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 
     /* ── RESOURCE ROW (admin) ── */
     .rrow-admin { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 6px; font-size: 13px; }
@@ -226,7 +224,7 @@
     <div class="login-body">
       <div class="login-sub">Ingresa el código que te enviaron para acceder a tus recursos</div>
       <div class="key-wrap">
-        <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="32"
+        <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="64"
           oninput="fmtInput(this)" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="off" />
         <button class="btn primary" onclick="doLogin()">Entrar</button>
       </div>
@@ -241,7 +239,7 @@
     <div class="stats-row">
       <div class="stat"><div class="stat-v" id="s-p">0</div><div class="stat-l">Productos</div></div>
       <div class="stat"><div class="stat-v" id="s-r">0</div><div class="stat-l">Recursos</div></div>
-      <div class="stat"><div class="stat-v" id="s-s">0</div><div class="stat-l">Compartidos</div></div>
+      <div class="stat"><div class="stat-v" id="s-s">0</div><div class="stat-l">Tokens activos</div></div>
     </div>
 
     <div class="slabel">Nuevo producto</div>
@@ -297,16 +295,21 @@ function genToken(){
   const s=n=>Array.from({length:n},()=>c[Math.floor(Math.random()*c.length)]).join('');
   return s(4)+'-'+s(4)+'-'+s(4);
 }
-function buildLink(token){ return window.location.origin+window.location.pathname+'?token='+token; }
+// enlaces directos eliminados — solo token
 function iconEmoji(t){ return t==='pdf'?'📄':t==='video'?'▶':'🖼'; }
 function typeLabel(t){ return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'; }
 
 function fmtInput(input){
-  // Si es la clave admin no formatea
-  if(input.value.startsWith('S')||input.value.length>14) return;
-  let v=input.value.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
-  let out='';for(let i=0;i<v.length;i++){if(i===4||i===8)out+='-';out+=v[i];}
-  input.value=out;
+  const v = input.value;
+  // Si contiene caracteres especiales de la clave admin, no tocar
+  if(/[+_@#!]/.test(v)) return;
+  // Si ya tiene guiones en posición admin o es muy largo, no tocar
+  if(v.length > 14) return;
+  // Formatear como token de producto XXXX-XXXX-XXXX
+  let clean = v.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
+  let out = '';
+  for(let i=0;i<clean.length;i++){if(i===4||i===8)out+='-';out+=clean[i];}
+  input.value = out;
 }
 
 function toast(msg){
@@ -338,7 +341,7 @@ function doLogin(){
   const err = document.getElementById('login-err');
   err.style.display = 'none';
 
-  // ¿Es el admin?
+  // Admin — comparación exacta, sensible a mayúsculas y símbolos
   if(raw === ADMIN_KEY){
     document.getElementById('admin-banner').classList.remove('hidden');
     showOnly('view-admin');
@@ -346,7 +349,7 @@ function doLogin(){
     return;
   }
 
-  // ¿Es un token de producto?
+  // Token de producto — siempre en mayúsculas
   const token = raw.toUpperCase();
   const p = DB.products.find(x=>x.token===token);
   if(!p){ err.style.display='block'; return; }
@@ -385,7 +388,7 @@ function doLogout(){
 function stats(){
   document.getElementById('s-p').textContent = DB.products.length;
   document.getElementById('s-r').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
-  document.getElementById('s-s').textContent = DB.products.reduce((s,p)=>s+(p.shared||0),0);
+  document.getElementById('s-s').textContent = DB.products.length; // un token por producto
 }
 
 /* ── ADMIN: RENDER ── */
@@ -398,7 +401,6 @@ function renderAdmin(){
   el.innerHTML='';
   DB.products.forEach(p=>{
     const isExp = exp===p.id;
-    const link  = buildLink(p.token);
     const div   = document.createElement('div');
     div.className='pcard';
     div.innerHTML=`
@@ -415,18 +417,12 @@ function renderAdmin(){
         <div class="slabel">Código de acceso del cliente</div>
         <div class="tbox">
           <div>
-            <div class="tlabel">Código único del producto</div>
+            <div class="tlabel">Comparte este código con el cliente</div>
             <div class="tval">${p.token}</div>
           </div>
           <button class="btn sm" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);color:#fff;flex-shrink:0"
             onclick="cp('${p.token}','Código copiado')">Copiar</button>
         </div>
-        <div class="slabel">Enlace directo</div>
-        <div class="lrow">
-          <span title="${link}">${link}</span>
-          <button class="btn sm" onclick="cpLink('${link}','${p.id}')">Copiar</button>
-        </div>
-        <div style="font-size:11px;color:var(--t3);margin-top:5px">Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}</div>
         <div class="divider"></div>
         <button class="btn sm wine" style="margin-bottom:12px" onclick="previewProduct('${p.id}')">👁 Ver como cliente</button>
         <div class="divider"></div>
@@ -515,11 +511,7 @@ function delRes(pid,idx){
   exp=pid; save(); renderAdmin();
 }
 
-function cpLink(link,pid){
-  cp(link,'Enlace copiado');
-  const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  p.shared=(p.shared||0)+1; exp=pid; save(); renderAdmin();
-}
+
 
 function previewProduct(pid){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
