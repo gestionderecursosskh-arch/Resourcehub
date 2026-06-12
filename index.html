@@ -4,594 +4,601 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkanHawk — Portal de Recursos</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --innovation:   #3B122D;
-      --innovation-2: #52193F;
-      --hightech:     #00809D;
-      --hightech-dim: rgba(0,128,157,0.08);
-      --hightech-border: rgba(0,128,157,0.25);
-      --fresh:        #AC9BA3;
-      --skblue:       #BFCDD9;
-
-      --bg:           #ffffff;
-      --bg-page:      #f7f7f8;
-      --bg-card:      #ffffff;
-      --bg-input:     #f4f4f6;
-      --bg-hover:     #f0f0f2;
-      --border:       rgba(0,0,0,0.08);
-      --border-md:    rgba(0,0,0,0.13);
-      --text-1:       #1a1a1a;
-      --text-2:       #555;
-      --text-3:       #999;
-      --danger:       #c0392b;
-      --danger-bg:    rgba(192,57,43,0.07);
-      --r-md:         6px;
-      --r-lg:         12px;
-      --font:         'Roboto', system-ui, sans-serif;
+      --inn:      #3B122D;
+      --inn2:     #52193F;
+      --ht:       #00809D;
+      --ht-dim:   rgba(0,128,157,0.09);
+      --ht-b:     rgba(0,128,157,0.28);
+      --fresh:    #AC9BA3;
+      --skblue:   #BFCDD9;
+      --bg:       #f4f4f6;
+      --card:     #ffffff;
+      --border:   rgba(0,0,0,0.08);
+      --border-md:rgba(0,0,0,0.14);
+      --t1:       #1a1a1a;
+      --t2:       #555555;
+      --t3:       #999999;
+      --danger:   #c0392b;
+      --danger-bg:rgba(192,57,43,0.07);
+      --r:        8px;
+      --rl:       12px;
+      --font:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg-page); color: var(--text-1); min-height: 100vh; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--font); background: var(--bg); color: var(--t1); min-height: 100vh; }
 
-    /* ── TOPBAR ── */
+    /* ────────── TOPBAR ────────── */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px; height: 54px;
-      background: var(--innovation);
-      position: sticky; top: 0; z-index: 20;
+      padding: 0 20px; height: 52px;
+      background: var(--inn);
+      position: sticky; top: 0; z-index: 50;
     }
-    .brand-name {
-      font-size: 17px; font-weight: 900; letter-spacing: .14em;
-      color: #fff;
+    .brand-name { font-size: 15px; font-weight: 900; letter-spacing: .12em; color: #fff; line-height:1; }
+    .brand-name span { color: var(--ht); }
+    .brand-sub  { font-size: 9px; font-weight: 400; letter-spacing: .2em; color: rgba(172,155,163,.65); text-transform: uppercase; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 8px; }
+    #admin-toggle-btn {
+      font-size: 11px; font-weight: 600; letter-spacing: .06em; padding: 5px 14px;
+      border: 1px solid rgba(255,255,255,.2); border-radius: var(--r);
+      background: transparent; color: rgba(255,255,255,.65); cursor: pointer;
+      font-family: var(--font); transition: all .15s;
     }
-    .brand-name span { color: var(--hightech); }
-    .brand-sub {
-      font-size: 9px; font-weight: 300; letter-spacing: .22em;
-      color: rgba(172,155,163,0.8); text-transform: uppercase; margin-top: 2px;
-    }
+    #admin-toggle-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+    #admin-toggle-btn.active { background: var(--ht); border-color: var(--ht); color: #fff; }
 
-    .tab-group { display: flex; gap: 4px; }
-    .tab-btn {
-      padding: 5px 16px; border: 1px solid rgba(255,255,255,0.2);
-      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
-      font-weight: 500; cursor: pointer; background: transparent;
-      color: rgba(255,255,255,0.6); transition: all .15s;
-    }
-    .tab-btn.active { background: var(--hightech); border-color: var(--hightech); color: #fff; }
-    .tab-btn:not(.active):hover { background: rgba(255,255,255,0.1); color: #fff; }
+    /* ────────── SHARED ────────── */
+    .hidden { display: none !important; }
+    .wrap   { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+    .slabel { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--ht); text-transform: uppercase; margin-bottom: 10px; }
+    .card   { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 18px; margin-bottom: 12px; }
+    .divider{ border: none; border-top: 1px solid var(--border); margin: 12px 0; }
 
-    /* ── LAYOUT ── */
-    .view { display: none; }
-    .view.active { display: block; }
-    .wrap { max-width: 700px; margin: 0 auto; padding: 28px 20px; }
-
-    .section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: .14em;
-      color: var(--hightech); text-transform: uppercase; margin-bottom: 10px;
-    }
-
-    /* ── STATS ── */
+    /* ────────── STATS ────────── */
     .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-    .stat-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-top: 3px solid var(--innovation);
-      border-radius: var(--r-lg); padding: 16px;
-    }
-    .stat-val { font-size: 28px; font-weight: 900; color: var(--innovation); line-height: 1; }
-    .stat-lbl { font-size: 11px; color: var(--text-3); margin-top: 4px; font-weight: 400; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--inn); border-radius: var(--rl); padding: 14px 16px; }
+    .stat-v { font-size: 26px; font-weight: 900; color: var(--inn); line-height: 1; }
+    .stat-l { font-size: 11px; color: var(--t3); margin-top: 4px; }
 
-    /* ── CARD ── */
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px;
-    }
+    /* ────────── FORM ────────── */
+    .frow { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .frow label { font-size: 10px; color: var(--t3); min-width: 86px; padding-top: 11px; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
+    .frow input { flex: 1; padding: 9px 12px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); color: var(--t1); background: #f9f9fb; transition: border-color .15s; }
+    .frow input:focus { outline: none; border-color: var(--ht); }
+    .frow input::placeholder { color: var(--t3); }
 
-    /* ── FORM ── */
-    .field-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-    .field-row label { font-size: 11px; color: var(--text-3); min-width: 90px; padding-top: 10px; letter-spacing: .04em; text-transform: uppercase; }
-    .field-row input {
-      flex: 1; padding: 9px 12px; border: 1px solid var(--border-md);
-      border-radius: var(--r-md); font-size: 13px; font-family: var(--font);
-      color: var(--text-1); background: var(--bg-input); transition: border-color .15s;
-    }
-    .field-row input:focus { outline: none; border-color: var(--hightech); }
-    .field-row input::placeholder { color: var(--text-3); }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px; border: 1px solid var(--border-md);
-      border-radius: var(--r-md); font-size: 13px; font-family: var(--font);
-      font-weight: 500; cursor: pointer; background: transparent;
-      color: var(--text-2); transition: all .15s;
-    }
-    .btn:hover { background: var(--bg-hover); }
-    .btn.primary { background: var(--hightech); border-color: var(--hightech); color: #fff; }
-    .btn.primary:hover { background: #006f8a; border-color: #006f8a; }
-    .btn.secondary { background: var(--innovation); border-color: var(--innovation); color: #fff; }
-    .btn.secondary:hover { background: var(--innovation-2); border-color: var(--innovation-2); }
-    .btn.danger { border-color: rgba(192,57,43,0.3); color: var(--danger); }
+    /* ────────── BUTTONS ────────── */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); font-weight: 500; cursor: pointer; background: transparent; color: var(--t2); transition: all .15s; }
+    .btn:hover { background: #ebebed; }
+    .btn.primary { background: var(--ht); border-color: var(--ht); color: #fff; }
+    .btn.primary:hover { background: #006f8a; }
+    .btn.wine { background: var(--inn); border-color: var(--inn); color: #fff; }
+    .btn.wine:hover { background: var(--inn2); }
+    .btn.danger { border-color: rgba(192,57,43,.25); color: var(--danger); }
     .btn.danger:hover { background: var(--danger-bg); }
-    .btn.sm { padding: 5px 11px; font-size: 12px; }
+    .btn.sm { padding: 5px 10px; font-size: 12px; }
 
-    /* ── BADGE ── */
-    .badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500;
-    }
-    .badge.teal { background: var(--hightech-dim); color: var(--hightech); border: 1px solid var(--hightech-border); }
+    /* ────────── BADGE ────────── */
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+    .badge.teal { background: var(--ht-dim); color: var(--ht); border: 1px solid var(--ht-b); }
 
-    /* ── PRODUCT CARD ── */
-    .product-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: 18px; margin-bottom: 10px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .product-card:hover { border-color: var(--hightech-border); box-shadow: 0 2px 12px rgba(0,128,157,0.07); }
-    .product-name { font-size: 15px; font-weight: 700; color: var(--text-1); }
-    .product-desc { font-size: 12px; color: var(--text-3); margin-top: 3px; }
+    /* ────────── PRODUCT CARD ────────── */
+    .pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 16px; margin-bottom: 10px; transition: border-color .2s, box-shadow .2s; }
+    .pcard:hover { border-color: var(--ht-b); box-shadow: 0 2px 10px rgba(0,128,157,.06); }
+    .pname { font-size: 14px; font-weight: 700; }
+    .pdesc-text { font-size: 12px; color: var(--t3); margin-top: 2px; }
+    .xbtn { background: none; border: 1px solid var(--border); border-radius: var(--r); cursor: pointer; color: var(--t3); display: flex; align-items: center; padding: 5px 8px; flex-shrink: 0; font-size: 13px; transition: all .15s; }
+    .xbtn:hover { border-color: var(--ht); color: var(--ht); }
+    .xpanel { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
 
-    .expand-btn {
-      background: none; border: 1px solid var(--border);
-      border-radius: var(--r-md); cursor: pointer; color: var(--text-3);
-      display: flex; align-items: center; padding: 5px 7px;
-      flex-shrink: 0; transition: all .15s;
-    }
-    .expand-btn:hover { border-color: var(--hightech); color: var(--hightech); }
-    .expand-panel { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 16px; }
+    /* ────────── TOKEN BOX ────────── */
+    .tbox { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--inn); border-radius: var(--r); padding: 12px 16px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+    .tlabel { font-size: 9px; color: rgba(172,155,163,.8); margin-bottom: 5px; letter-spacing: .14em; font-weight: 600; text-transform: uppercase; }
+    .tval { font-family: 'Courier New', monospace; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .14em; }
 
-    /* ── TOKEN BOX ── */
-    .token-box {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      background: var(--innovation);
-      border-radius: var(--r-md); padding: 14px 18px; margin-bottom: 12px;
-    }
-    .token-label { font-size: 9px; color: rgba(172,155,163,0.8); margin-bottom: 6px; letter-spacing: .16em; font-weight: 500; text-transform: uppercase; }
-    .token-val { font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #fff; letter-spacing: .16em; }
+    /* ────────── LINK ROW ────────── */
+    .lrow { display: flex; align-items: center; gap: 8px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); padding: 8px 12px; }
+    .lrow span { font-family: 'Courier New', monospace; font-size: 11px; color: var(--t3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* ── LINK ROW ── */
-    .link-row {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: var(--r-md); padding: 8px 12px;
-    }
-    .link-row span { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .link-row i { color: var(--hightech); font-size: 15px; flex-shrink: 0; }
+    /* ────────── RESOURCE ROW (admin) ────────── */
+    .rrow-admin { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 6px; font-size: 13px; }
+    .rrow-icon { font-size: 16px; flex-shrink: 0; }
 
-    /* ── RESOURCES LIST (admin) ── */
-    .res-row {
-      display: flex; align-items: center; gap: 8px; padding: 8px 10px;
-      background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: var(--r-md); margin-bottom: 6px; font-size: 13px;
-    }
-    .res-row i { font-size: 16px; color: var(--hightech); flex-shrink: 0; }
-    .add-res-row { display: flex; gap: 6px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
-    .add-res-row input {
-      flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border-md);
-      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
-      color: var(--text-1); background: var(--bg-input);
-    }
-    .add-res-row input:focus { outline: none; border-color: var(--hightech); }
-    .add-res-row input::placeholder { color: var(--text-3); }
-    .add-res-row select {
-      padding: 7px 8px; border: 1px solid var(--border-md);
-      border-radius: var(--r-md); font-size: 12px; font-family: var(--font);
-      color: var(--text-1); background: var(--bg-input);
-    }
+    /* ────────── ADD RESOURCE ────────── */
+    .addrow { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+    .addrow input { flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
+    .addrow input:focus { outline: none; border-color: var(--ht); }
+    .addrow input::placeholder { color: var(--t3); }
+    .addrow select { padding: 7px 8px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
+    .hint { font-size: 11px; color: var(--t3); margin-top: 6px; line-height: 1.5; }
 
-    /* ── DIVIDER ── */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+    /* ────────── EMPTY STATE ────────── */
+    .empty { text-align: center; padding: 48px 20px; color: var(--t3); font-size: 13px; }
+    .empty .eicon { font-size: 40px; margin-bottom: 10px; display: block; }
 
-    /* ── EMPTY ── */
-    .empty-state { text-align: center; padding: 48px 20px; color: var(--text-3); font-size: 13px; }
-    .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
-    .empty-state p { font-size: 12px; margin-top: 6px; }
-
-    /* ── CLIENT ACCESS ── */
+    /* ────────── CLIENT ACCESS ────────── */
     .access-screen {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; min-height: calc(100vh - 54px);
-      padding: 40px 20px; text-align: center;
-      background: var(--bg-page);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: calc(100vh - 52px); padding: 32px 16px;
     }
-    .access-card {
-      width: 100%; max-width: 420px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-    }
-    .access-header {
-      background: var(--innovation);
-      padding: 28px 32px 24px;
-      text-align: center;
-    }
-    .access-logo { font-size: 22px; font-weight: 900; letter-spacing: .14em; color: #fff; }
-    .access-logo span { color: var(--hightech); }
-    .access-tagline { font-size: 9px; font-weight: 300; letter-spacing: .28em; color: rgba(172,155,163,0.7); text-transform: uppercase; margin-top: 4px; }
-    .access-divline { width: 32px; height: 2px; background: var(--hightech); margin: 16px auto 0; border-radius: 2px; }
-
-    .access-body { padding: 28px 28px 24px; }
-    .access-subtitle { font-size: 13px; color: var(--text-2); margin-bottom: 20px; text-align: left; font-weight: 400; }
-
-    .key-wrap { display: flex; gap: 8px; width: 100%; }
+    .access-card { width: 100%; max-width: 400px; background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+    .access-hdr { background: var(--inn); padding: 26px 24px 22px; text-align: center; }
+    .access-logo { font-size: 19px; font-weight: 900; letter-spacing: .12em; color: #fff; }
+    .access-logo span { color: var(--ht); }
+    .access-tag { font-size: 9px; font-weight: 400; letter-spacing: .24em; color: rgba(172,155,163,.7); text-transform: uppercase; margin-top: 3px; }
+    .access-line { width: 30px; height: 2px; background: var(--ht); margin: 14px auto 0; border-radius: 2px; }
+    .access-body { padding: 22px 22px 20px; }
+    .access-sub { font-size: 13px; color: var(--t2); margin-bottom: 14px; }
+    .key-wrap { display: flex; gap: 8px; }
     .key-wrap input {
-      flex: 1; padding: 11px 14px; border: 1px solid var(--border-md);
-      border-radius: var(--r-md); font-size: 15px;
-      font-family: 'Courier New', monospace;
-      letter-spacing: .12em; color: var(--text-1);
-      background: var(--bg-input); text-transform: uppercase; transition: border-color .15s;
+      flex: 1; padding: 11px 12px; border: 1px solid var(--border-md); border-radius: var(--r);
+      font-size: 15px; font-family: 'Courier New', monospace; letter-spacing: .12em;
+      color: var(--t1); background: #f9f9fb; text-transform: uppercase; transition: border-color .15s;
     }
-    .key-wrap input:focus { outline: none; border-color: var(--hightech); }
-    .key-wrap input::placeholder { color: var(--text-3); font-size: 13px; letter-spacing: .04em; }
-    .error-msg { font-size: 12px; color: var(--danger); margin-top: 10px; display: none; text-align: left; }
+    .key-wrap input:focus { outline: none; border-color: var(--ht); }
+    .key-wrap input::placeholder { color: var(--t3); font-size: 13px; letter-spacing: .04em; }
+    .err { font-size: 12px; color: var(--danger); margin-top: 8px; display: none; }
 
-    /* ── PORTAL ── */
-    .portal-wrap { max-width: 700px; margin: 0 auto; padding: 28px 20px; display: none; }
-    .portal-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 22px;
-    }
-    .portal-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--hightech); margin-bottom: 5px; }
-    .portal-title { font-size: 22px; font-weight: 900; color: var(--text-1); }
-    .portal-desc { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+    /* ────────── CLIENT PORTAL ────────── */
+    .portal-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+    .phdr { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
+    .peyebrow { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ht); margin-bottom: 4px; }
+    .ptitle { font-size: 20px; font-weight: 900; color: var(--t1); }
+    .psubtitle { font-size: 12px; color: var(--t3); margin-top: 3px; }
+    .logout-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--t3); cursor: pointer; background: none; border: 1px solid var(--border); border-radius: var(--r); font-family: var(--font); padding: 7px 13px; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
+    .logout-btn:hover { color: var(--t1); border-color: var(--border-md); }
 
-    .logout-btn {
-      display: flex; align-items: center; gap: 5px; font-size: 12px;
-      color: var(--text-3); cursor: pointer; background: none;
-      border: 1px solid var(--border); border-radius: var(--r-md);
-      font-family: var(--font); padding: 6px 12px; transition: all .15s;
-    }
-    .logout-btn:hover { color: var(--text-1); border-color: var(--border-md); }
+    /* ────────── RESOURCE CARD (client) ────────── */
+    .res-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); margin-bottom: 18px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+    .res-card-hdr { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fafafa; border-bottom: 1px solid var(--border); }
+    .res-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .res-card-icon.pdf   { background: rgba(59,18,45,.09); }
+    .res-card-icon.video { background: var(--ht-dim); }
+    .res-card-icon.image { background: rgba(191,205,217,.25); }
+    .res-card-name { font-size: 14px; font-weight: 600; }
+    .res-card-type { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
 
-    .resource-card {
-      display: flex; align-items: center; gap: 16px; padding: 14px 18px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r-lg); text-decoration: none; margin-bottom: 10px;
-      transition: all .18s;
-    }
-    .resource-card:hover { border-color: var(--hightech-border); box-shadow: 0 2px 10px rgba(0,128,157,0.08); transform: translateX(2px); }
-    .res-icon { width: 42px; height: 42px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .res-icon.pdf   { background: rgba(59,18,45,0.08); } .res-icon.pdf   i { color: var(--innovation); font-size: 20px; }
-    .res-icon.video { background: var(--hightech-dim); }  .res-icon.video i { color: var(--hightech); font-size: 20px; }
-    .res-icon.image { background: rgba(191,205,217,0.3); } .res-icon.image i { color: #6a8fa8; font-size: 20px; }
-    .res-name { font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 2px; }
-    .res-type { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+    /* EMBEDS */
+    .embed-pdf   { width: 100%; height: 500px; border: none; display: block; background: #f0f0f0; }
+    .embed-video { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+    .embed-img   { width: 100%; max-height: 480px; object-fit: contain; display: block; background: #f9f9f9; padding: 8px; }
+    .embed-open  { display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .embed-open a { color: var(--ht); font-size: 14px; font-weight: 500; text-decoration: none; padding: 10px 20px; border: 1px solid var(--ht-b); border-radius: var(--r); background: var(--ht-dim); }
+    .embed-open a:hover { background: rgba(0,128,157,.15); }
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--innovation); color: #fff;
-      padding: 10px 18px; border-radius: var(--r-md);
-      font-size: 13px; font-family: var(--font);
-      opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100;
-      display: flex; align-items: center; gap: 8px;
-    }
+    /* ────────── TOAST ────────── */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--inn); color: #fff; padding: 10px 18px; border-radius: var(--r); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100; max-width: 240px; }
     .toast.show { opacity: 1; }
-    .toast i { color: var(--hightech); font-size: 15px; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 520px) {
-      .topbar { padding: 0 16px; }
-      .brand-sub { display: none; }
-      .wrap, .portal-wrap { padding: 20px 14px; }
+    /* ────────── RESPONSIVE ────────── */
+    @media (max-width: 600px) {
       .stats-row { grid-template-columns: 1fr 1fr; }
-      .stats-row .stat-card:last-child { grid-column: span 2; }
-      .field-row { flex-direction: column; }
-      .field-row label { min-width: unset; padding-top: 0; }
-      .token-val { font-size: 16px; }
-      .access-body { padding: 24px 20px 20px; }
+      .stats-row .stat:last-child { grid-column: span 2; }
+      .frow { flex-direction: column; }
+      .frow label { min-width: unset; padding-top: 0; }
+      .tval { font-size: 15px; }
+      .embed-pdf { height: 320px; }
+      .ptitle { font-size: 17px; }
+      .phdr { flex-direction: column; }
+    }
+    @media (max-width: 380px) {
+      .tval { font-size: 13px; letter-spacing: .08em; }
+      .access-hdr { padding: 20px 16px 18px; }
+      .access-body { padding: 18px 16px; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
+<!-- ══════════════ TOPBAR ══════════════ -->
 <header class="topbar">
   <div>
     <div class="brand-name">SKAN<span>HAWK</span></div>
     <div class="brand-sub">Portal de Recursos</div>
   </div>
-  <div class="tab-group">
-    <button class="tab-btn active" id="tab-admin" onclick="switchView('admin')">Admin</button>
-    <button class="tab-btn" id="tab-client" onclick="switchView('client')">Cliente</button>
+  <div class="topbar-right">
+    <!-- Solo visible si ?admin= está en la URL -->
+    <button id="admin-toggle-btn" class="hidden" onclick="toggleAdminPanel()">⚙ Admin</button>
   </div>
 </header>
 
-<!-- ═══ ADMIN ═══ -->
-<div class="view active" id="view-admin">
+<!-- ══════════════ PANEL ADMIN ══════════════ -->
+<div id="admin-panel" class="hidden">
   <div class="wrap">
 
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-val" id="s-products">0</div>
-        <div class="stat-lbl">Productos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="s-resources">0</div>
-        <div class="stat-lbl">Recursos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="s-shared">0</div>
-        <div class="stat-lbl">Compartidos</div>
-      </div>
+      <div class="stat"><div class="stat-v" id="s-p">0</div><div class="stat-l">Productos</div></div>
+      <div class="stat"><div class="stat-v" id="s-r">0</div><div class="stat-l">Recursos</div></div>
+      <div class="stat"><div class="stat-v" id="s-s">0</div><div class="stat-l">Compartidos</div></div>
     </div>
 
-    <div class="section-label">Nuevo producto</div>
+    <div class="slabel">Nuevo producto</div>
     <div class="card">
-      <div class="field-row">
-        <label>Nombre</label>
-        <input id="pn-name" placeholder="Ej: Compresor CA-500" />
-      </div>
-      <div class="field-row">
-        <label>Descripción</label>
-        <input id="pn-desc" placeholder="Breve descripción del producto" />
-      </div>
+      <div class="frow"><label>Nombre</label><input id="pn" placeholder="Ej: Compresor CA-500" /></div>
+      <div class="frow"><label>Descripción</label><input id="pd" placeholder="Breve descripción" /></div>
       <div style="display:flex;justify-content:flex-end;margin-top:6px">
-        <button class="btn primary" onclick="createProduct()">
-          <i class="ti ti-plus"></i> Crear producto
-        </button>
+        <button class="btn primary" onclick="createProduct()">+ Crear producto</button>
       </div>
     </div>
 
-    <div class="section-label">Productos registrados</div>
-    <div id="product-list"></div>
+    <div class="slabel">Productos registrados</div>
+    <div id="plist"></div>
 
   </div>
 </div>
 
-<!-- ═══ CLIENTE ═══ -->
-<div class="view" id="view-client">
-
-  <div class="access-screen" id="c-access">
-    <div class="access-card">
-      <div class="access-header">
-        <div class="access-logo">SKAN<span>HAWK</span></div>
-        <div class="access-tagline">Technology, Innovation &amp; Efficiency</div>
-        <div class="access-divline"></div>
+<!-- ══════════════ VISTA CLIENTE — ACCESO ══════════════ -->
+<div id="view-access" class="access-screen">
+  <div class="access-card">
+    <div class="access-hdr">
+      <div class="access-logo">SKAN<span>HAWK</span></div>
+      <div class="access-tag">Technology · Innovation · Efficiency</div>
+      <div class="access-line"></div>
+    </div>
+    <div class="access-body">
+      <div class="access-sub">Ingresa el código del producto que te enviaron</div>
+      <div class="key-wrap">
+        <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="14"
+          oninput="fmtToken(this)" onkeydown="if(event.key==='Enter')doAccess()" autocomplete="off" />
+        <button class="btn primary" onclick="doAccess()">Entrar</button>
       </div>
-      <div class="access-body">
-        <div class="access-subtitle">Ingresa el código del producto que te enviaron</div>
-        <div class="key-wrap">
-          <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="14"
-            oninput="fmtToken(this)" onkeydown="if(event.key==='Enter')doAccess()" autocomplete="off" />
-          <button class="btn primary" onclick="doAccess()">
-            <i class="ti ti-door-enter"></i> Entrar
-          </button>
-        </div>
-        <div class="error-msg" id="token-error">Código inválido. Verifica el mensaje que recibiste.</div>
-      </div>
+      <div class="err" id="token-err">Código inválido. Verifica el mensaje que recibiste.</div>
     </div>
   </div>
+</div>
 
-  <div class="portal-wrap" id="c-portal">
-    <div class="portal-header">
+<!-- ══════════════ VISTA CLIENTE — PORTAL ══════════════ -->
+<div id="view-portal" class="hidden">
+  <div class="portal-wrap">
+    <div class="phdr">
       <div>
-        <div class="portal-eyebrow">Producto · SkanHawk</div>
-        <div class="portal-title" id="p-name"></div>
-        <div class="portal-desc" id="p-desc"></div>
+        <div class="peyebrow">Producto · SkanHawk</div>
+        <div class="ptitle" id="p-name"></div>
+        <div class="psubtitle" id="p-desc"></div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">
-        <i class="ti ti-logout"></i> Salir
-      </button>
+      <button class="logout-btn" onclick="doLogout()">↩ Salir</button>
     </div>
     <div id="p-resources"></div>
-    <div class="empty-state" id="p-empty" style="display:none">
-      <i class="ti ti-file-off" style="color:var(--text-3)"></i>
-      Este producto aún no tiene recursos disponibles.
-      <p>Contacta al equipo de SkanHawk.</p>
+    <div id="p-empty" class="empty hidden">
+      <span class="eicon">📄</span>
+      Este producto aún no tiene recursos disponibles.<br>
+      <small>Contacta al equipo de SkanHawk.</small>
     </div>
   </div>
-
 </div>
 
-<div class="toast" id="toast">
-  <i class="ti ti-check"></i>
-  <span id="toast-msg"></span>
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
-let DB = { products: [] };
+/* ═══════════════════════════════════════
+   CLAVE ADMIN — cámbiala por la tuya
+   Acceso: index.html?admin=Skanhawk_247+
+   ═══════════════════════════════════════ */
+const ADMIN_KEY = 'Skanhawk_247+';
 
-function genToken() {
-  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  const s = n => Array.from({length:n}, () => c[Math.floor(Math.random()*c.length)]).join('');
+/* ─── ESTADO ─── */
+let DB  = { products: [] };
+let exp = null;   // producto expandido en admin
+let IS_ADMIN = false;
+let adminPanelOpen = false;
+
+/* ─── INIT ─── */
+(function init(){
+  load();
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get('token');
+  const adminQ = params.get('admin');
+
+  IS_ADMIN = (adminQ === ADMIN_KEY);
+
+  if(IS_ADMIN){
+    // Mostrar botón admin en topbar
+    const btn = document.getElementById('admin-toggle-btn');
+    btn.classList.remove('hidden');
+    // Abrir admin por defecto si no hay token
+    if(!token){
+      showAdmin();
+    } else {
+      // Tiene token Y es admin: mostrar acceso cliente, admin disponible en botón
+      showClientAccess();
+      document.getElementById('token-input').value = token;
+      doAccess();
+    }
+  } else if(token){
+    showClientAccess();
+    document.getElementById('token-input').value = token;
+    doAccess();
+  } else {
+    showClientAccess();
+  }
+})();
+
+/* ─── NAVEGACIÓN ─── */
+function showAdmin(){
+  document.getElementById('admin-panel').classList.remove('hidden');
+  document.getElementById('view-access').classList.add('hidden');
+  document.getElementById('view-portal').classList.add('hidden');
+  document.getElementById('admin-toggle-btn').classList.add('active');
+  adminPanelOpen = true;
+  render();
+}
+
+function showClientAccess(){
+  document.getElementById('admin-panel').classList.add('hidden');
+  document.getElementById('view-access').classList.remove('hidden');
+  document.getElementById('view-portal').classList.add('hidden');
+  if(IS_ADMIN) document.getElementById('admin-toggle-btn').classList.remove('active');
+  adminPanelOpen = false;
+}
+
+function toggleAdminPanel(){
+  if(adminPanelOpen){
+    showClientAccess();
+  } else {
+    showAdmin();
+  }
+}
+
+/* ─── STORAGE ─── */
+function save(){ try{ localStorage.setItem('skanhawk_portal', JSON.stringify(DB)); }catch(e){} }
+function load(){ try{ const d=localStorage.getItem('skanhawk_portal'); if(d) DB=JSON.parse(d); }catch(e){} }
+
+/* ─── UTILS ─── */
+function genToken(){
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const s=n=>Array.from({length:n},()=>c[Math.floor(Math.random()*c.length)]).join('');
   return s(4)+'-'+s(4)+'-'+s(4);
 }
-function iconType(t) { return t==='pdf'?'ti-file-type-pdf':t==='video'?'ti-brand-youtube':'ti-photo'; }
-function buildLink(token) { return window.location.origin+window.location.pathname+'?token='+token; }
-function updateStats() {
-  document.getElementById('s-products').textContent  = DB.products.length;
-  document.getElementById('s-resources').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
-  document.getElementById('s-shared').textContent    = DB.products.reduce((s,p)=>s+(p.shared||0),0);
+function buildLink(token){
+  const base = window.location.origin + window.location.pathname;
+  return base + '?token=' + token;
 }
-function saveDB() { try { localStorage.setItem('skanhawk_portal', JSON.stringify(DB)); } catch(e){} }
-function loadDB() { try { const d=localStorage.getItem('skanhawk_portal'); if(d) DB=JSON.parse(d); } catch(e){} }
-
-let expanded = null;
-
-function renderProducts() {
-  const el = document.getElementById('product-list');
-  if (DB.products.length === 0) {
-    el.innerHTML = `<div class="empty-state"><i class="ti ti-package-off"></i>Aún no hay productos.<p>Crea el primero usando el formulario de arriba.</p></div>`;
-    updateStats(); return;
-  }
-  el.innerHTML = '';
-  DB.products.forEach(p => {
-    const isExp = expanded===p.id;
-    const link  = buildLink(p.token);
-    const div   = document.createElement('div');
-    div.className = 'product-card';
-    div.innerHTML = `
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-        <div style="flex:1">
-          <div class="product-name">${p.name}</div>
-          <div class="product-desc">${p.desc}</div>
-          <div style="margin-top:8px">
-            <span class="badge teal"><i class="ti ti-files" style="font-size:10px"></i> ${p.resources.length} recurso${p.resources.length!==1?'s':''}</span>
-          </div>
-        </div>
-        <button class="expand-btn" onclick="toggleExpand('${p.id}')">
-          <i class="ti ti-${isExp?'chevron-up':'chevron-down'}" style="font-size:17px"></i>
-        </button>
-      </div>
-      ${isExp ? `
-      <div class="expand-panel">
-        <div class="section-label">Código de acceso</div>
-        <div class="token-box">
-          <div>
-            <div class="token-label">Código único del producto</div>
-            <div class="token-val">${p.token}</div>
-          </div>
-          <button class="btn sm" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff" onclick="copyText('${p.token}','Código copiado')">
-            <i class="ti ti-copy"></i> Copiar
-          </button>
-        </div>
-        <div class="section-label">Enlace directo</div>
-        <div class="link-row">
-          <i class="ti ti-link"></i>
-          <span title="${link}">${link}</span>
-          <button class="btn sm" onclick="copyLink('${link}','${p.id}')"><i class="ti ti-copy"></i> Copiar</button>
-        </div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:6px;margin-bottom:4px">
-          <i class="ti ti-send" style="font-size:11px"></i> Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}
-        </div>
-        <div class="divider"></div>
-        <div class="section-label">Recursos del producto</div>
-        ${p.resources.length===0?'<p style="font-size:12px;color:var(--text-3);margin-bottom:10px">Sin recursos aún.</p>':''}
-        ${p.resources.map((r,i)=>`
-          <div class="res-row">
-            <i class="ti ${iconType(r.type)}"></i>
-            <span style="flex:1">${r.name}</span>
-            <a href="${r.url}" target="_blank" rel="noopener" style="color:var(--text-3);margin-right:8px;text-decoration:none"><i class="ti ti-external-link" style="font-size:13px"></i></a>
-            <span style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-right:10px">${r.type}</span>
-            <button class="btn sm danger" onclick="removeRes('${p.id}',${i})"><i class="ti ti-trash"></i></button>
-          </div>`).join('')}
-        <div class="add-res-row">
-          <select id="rt-${p.id}"><option value="pdf">PDF</option><option value="video">Video</option><option value="image">Imagen</option></select>
-          <input id="rn-${p.id}" placeholder="Nombre del recurso" style="flex:1.2" />
-          <input id="ru-${p.id}" placeholder="URL de Drive o YouTube" style="flex:2" />
-          <button class="btn sm primary" onclick="addRes('${p.id}')"><i class="ti ti-plus"></i></button>
-        </div>
-        <div class="divider"></div>
-        <button class="btn sm danger" onclick="deleteProduct('${p.id}')"><i class="ti ti-trash"></i> Eliminar producto</button>
-      </div>` : ''}
-    `;
-    el.appendChild(div);
-  });
-  updateStats();
+function iconEmoji(t){ return t==='pdf'?'📄':t==='video'?'▶':'🖼'; }
+function typeLabel(t){ return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'; }
+function fmtToken(input){
+  let v=input.value.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
+  let out='';for(let i=0;i<v.length;i++){if(i===4||i===8)out+='-';out+=v[i];}
+  input.value=out;
 }
-
-function toggleExpand(id) { expanded=expanded===id?null:id; renderProducts(); }
-
-function createProduct() {
-  const name=document.getElementById('pn-name').value.trim();
-  const desc=document.getElementById('pn-desc').value.trim();
-  if(!name){document.getElementById('pn-name').focus();return;}
-  DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),shared:0,resources:[]});
-  document.getElementById('pn-name').value='';
-  document.getElementById('pn-desc').value='';
-  saveDB();renderProducts();
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
 }
-function deleteProduct(id) {
-  if(!confirm('¿Eliminar este producto y todos sus recursos?'))return;
-  DB.products=DB.products.filter(p=>p.id!==id);
-  if(expanded===id)expanded=null;
-  saveDB();renderProducts();
-}
-function addRes(pid) {
-  const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  const name=document.getElementById('rn-'+pid).value.trim();
-  const url=document.getElementById('ru-'+pid).value.trim();
-  const type=document.getElementById('rt-'+pid).value;
-  if(!name||!url)return;
-  p.resources.push({name,type,url});
-  expanded=pid;saveDB();renderProducts();
-}
-function removeRes(pid,idx) {
-  const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  p.resources.splice(idx,1);
-  expanded=pid;saveDB();renderProducts();
-}
-function copyText(text,msg) {
+function cp(text,msg){
   navigator.clipboard.writeText(text).catch(()=>{
     const ta=document.createElement('textarea');ta.value=text;
     document.body.appendChild(ta);ta.select();
     document.execCommand('copy');document.body.removeChild(ta);
   });
-  showToast(msg||'Copiado');
+  toast(msg||'Copiado');
 }
-function copyLink(link,pid) {
-  copyText(link,'Enlace copiado');
+
+/* ─── ADMIN: STATS ─── */
+function stats(){
+  document.getElementById('s-p').textContent = DB.products.length;
+  document.getElementById('s-r').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
+  document.getElementById('s-s').textContent = DB.products.reduce((s,p)=>s+(p.shared||0),0);
+}
+
+/* ─── ADMIN: RENDER PRODUCTOS ─── */
+function render(){
+  const el=document.getElementById('plist');
+  if(!DB.products.length){
+    el.innerHTML='<div class="empty"><span class="eicon">📦</span>Aún no hay productos.<br><small>Crea el primero arriba.</small></div>';
+    stats(); return;
+  }
+  el.innerHTML='';
+  DB.products.forEach(p=>{
+    const isExp = exp===p.id;
+    const link  = buildLink(p.token);
+    const div   = document.createElement('div');
+    div.className='pcard';
+    div.innerHTML=`
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div class="pname">${p.name}</div>
+          <div class="pdesc-text">${p.desc||''}</div>
+          <div style="margin-top:8px">
+            <span class="badge teal">${p.resources.length} recurso${p.resources.length!==1?'s':''}</span>
+          </div>
+        </div>
+        <button class="xbtn" onclick="toggle('${p.id}')">${isExp?'▲':'▼'}</button>
+      </div>
+      ${isExp?`
+      <div class="xpanel">
+        <div class="slabel">Código de acceso</div>
+        <div class="tbox">
+          <div>
+            <div class="tlabel">Código único — comparte este código con el cliente</div>
+            <div class="tval">${p.token}</div>
+          </div>
+          <button class="btn sm" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);color:#fff;flex-shrink:0"
+            onclick="cp('${p.token}','Código copiado')">Copiar</button>
+        </div>
+        <div class="slabel">Enlace directo (incluye el código)</div>
+        <div class="lrow">
+          <span title="${link}">${link}</span>
+          <button class="btn sm" onclick="cpLink('${link}','${p.id}')">Copiar</button>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:5px;margin-bottom:4px">
+          Compartido ${p.shared||0} ${(p.shared||0)===1?'vez':'veces'}
+        </div>
+        <div class="divider"></div>
+        <div class="slabel">Vista previa del cliente</div>
+        <button class="btn sm" style="margin-bottom:12px" onclick="previewProduct('${p.id}')">👁 Ver como cliente</button>
+        <div class="divider"></div>
+        <div class="slabel">Recursos del producto</div>
+        ${p.resources.length===0?'<p style="font-size:12px;color:var(--t3);margin-bottom:8px">Sin recursos aún.</p>':''}
+        ${p.resources.map((r,i)=>`
+          <div class="rrow-admin">
+            <span class="rrow-icon">${iconEmoji(r.type)}</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:500">${r.name}</div>
+              <div style="font-size:11px;color:var(--t3);">${r.type.toUpperCase()}${r.ytid?' · YouTube':r.url?' · '+r.url.slice(0,44)+'…':''}</div>
+            </div>
+            <button class="btn sm danger" onclick="delRes('${p.id}',${i})">✕</button>
+          </div>`).join('')}
+        <div class="addrow">
+          <select id="rt-${p.id}">
+            <option value="pdf">PDF (Drive)</option>
+            <option value="video">Video (YouTube)</option>
+            <option value="image">Imagen</option>
+          </select>
+          <input id="rn-${p.id}" placeholder="Nombre visible para el cliente" style="flex:1.2" />
+          <input id="ru-${p.id}" placeholder="URL de Drive o YouTube" style="flex:2" />
+          <button class="btn sm primary" onclick="addRes('${p.id}')">+ Agregar</button>
+        </div>
+        <p class="hint">
+          📄 <b>PDF / Imagen Drive:</b> Abre el archivo → Compartir → "Cualquiera con el enlace puede ver" → copia la URL.<br>
+          ▶ <b>Video YouTube:</b> Pega la URL normal del video (ej: https://youtube.com/watch?v=xxx).
+        </p>
+        <div class="divider"></div>
+        <button class="btn sm danger" onclick="delProd('${p.id}')">🗑 Eliminar producto</button>
+      </div>`:''}
+    `;
+    el.appendChild(div);
+  });
+  stats();
+}
+
+function toggle(id){ exp=exp===id?null:id; render(); }
+
+/* ─── ADMIN: CRUD ─── */
+function createProduct(){
+  const name=document.getElementById('pn').value.trim();
+  const desc=document.getElementById('pd').value.trim();
+  if(!name){document.getElementById('pn').focus();return;}
+  DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),shared:0,resources:[]});
+  document.getElementById('pn').value='';
+  document.getElementById('pd').value='';
+  save(); render();
+}
+
+function delProd(id){
+  if(!confirm('¿Eliminar este producto y todos sus recursos?'))return;
+  DB.products=DB.products.filter(p=>p.id!==id);
+  if(exp===id)exp=null;
+  save(); render();
+}
+
+function addRes(pid){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
-  p.shared=(p.shared||0)+1;expanded=pid;saveDB();renderProducts();
+  const name=document.getElementById('rn-'+pid).value.trim();
+  const url =document.getElementById('ru-'+pid).value.trim();
+  const type=document.getElementById('rt-'+pid).value;
+  if(!name||!url)return;
+
+  let embedUrl=url, ytid=null;
+
+  if(type==='video'){
+    const m=url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+    if(m) ytid=m[1];
+  }
+  if(type==='pdf'){
+    const m=url.match(/\/file\/d\/([^/?#]+)/);
+    if(m) embedUrl=`https://drive.google.com/file/d/${m[1]}/preview`;
+  }
+  if(type==='image'){
+    const m=url.match(/\/file\/d\/([^/?#]+)/);
+    if(m) embedUrl=`https://drive.google.com/uc?export=view&id=${m[1]}`;
+  }
+
+  p.resources.push({name,type,url:embedUrl,ytid});
+  document.getElementById('rn-'+pid).value='';
+  document.getElementById('ru-'+pid).value='';
+  exp=pid; save(); render();
 }
-function fmtToken(input) {
-  let v=input.value.replace(/[^A-Z0-9a-z]/gi,'').toUpperCase().slice(0,12);
-  let out='';for(let i=0;i<v.length;i++){if(i===4||i===8)out+='-';out+=v[i];}
-  input.value=out;
+
+function delRes(pid,idx){
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  p.resources.splice(idx,1);
+  exp=pid; save(); render();
 }
-function doAccess() {
+
+function cpLink(link,pid){
+  cp(link,'Enlace copiado');
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  p.shared=(p.shared||0)+1; exp=pid; save(); render();
+}
+
+/* ─── ADMIN: VER COMO CLIENTE ─── */
+function previewProduct(pid){
+  const p=DB.products.find(x=>x.id===pid);if(!p)return;
+  document.getElementById('token-input').value=p.token;
+  showClientAccess();
+  doAccess();
+}
+
+/* ─── CLIENTE: ACCESO ─── */
+function doAccess(){
   const raw=document.getElementById('token-input').value.trim().toUpperCase();
   const p=DB.products.find(x=>x.token===raw);
-  const err=document.getElementById('token-error');
-  err.style.display='none';
-  if(!p){err.style.display='block';return;}
-  document.getElementById('c-access').style.display='none';
-  document.getElementById('c-portal').style.display='block';
+  document.getElementById('token-err').style.display='none';
+  if(!p){document.getElementById('token-err').style.display='block';return;}
+
+  // Mostrar portal
+  document.getElementById('view-access').classList.add('hidden');
+  document.getElementById('view-portal').classList.remove('hidden');
+  document.getElementById('admin-panel').classList.add('hidden');
   document.getElementById('p-name').textContent=p.name;
-  document.getElementById('p-desc').textContent=p.desc;
-  const res=document.getElementById('p-resources');
-  const empty=document.getElementById('p-empty');
-  res.innerHTML='';
-  if(p.resources.length===0){empty.style.display='block';return;}
-  empty.style.display='none';
-  p.resources.forEach(r=>{
-    const a=document.createElement('a');
-    a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';
-    a.className='resource-card';
-    a.innerHTML=`
-      <div class="res-icon ${r.type}"><i class="ti ${iconType(r.type)}"></i></div>
-      <div style="flex:1">
-        <div class="res-name">${r.name}</div>
-        <div class="res-type">${r.type==='pdf'?'Documento PDF':r.type==='video'?'Video':'Imagen'}</div>
+  document.getElementById('p-desc').textContent=p.desc||'';
+
+  const resEl=document.getElementById('p-resources');
+  const emptyEl=document.getElementById('p-empty');
+  resEl.innerHTML='';
+
+  if(!p.resources||!p.resources.length){
+    emptyEl.classList.remove('hidden'); return;
+  }
+  emptyEl.classList.add('hidden');
+  resEl.innerHTML=p.resources.map(buildResourceCard).join('');
+}
+
+function buildResourceCard(r){
+  let body='';
+  if(r.type==='video'&&r.ytid){
+    body=`<iframe class="embed-video"
+      src="https://www.youtube.com/embed/${r.ytid}"
+      allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+      allowfullscreen loading="lazy"></iframe>`;
+  } else if(r.type==='pdf'&&r.url){
+    body=`<iframe class="embed-pdf" src="${r.url}" title="${r.name}" loading="lazy"></iframe>`;
+  } else if(r.type==='image'&&r.url){
+    body=`<img class="embed-img" src="${r.url}" alt="${r.name}" loading="lazy"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="embed-open" style="display:none"><a href="${r.url}" target="_blank" rel="noopener">Ver imagen →</a></div>`;
+  } else if(r.url){
+    body=`<div class="embed-open"><a href="${r.url}" target="_blank" rel="noopener">Abrir recurso →</a></div>`;
+  }
+  return `
+    <div class="res-card">
+      <div class="res-card-hdr">
+        <div class="res-card-icon ${r.type}">${iconEmoji(r.type)}</div>
+        <div>
+          <div class="res-card-name">${r.name}</div>
+          <div class="res-card-type">${typeLabel(r.type)}</div>
+        </div>
       </div>
-      <i class="ti ti-external-link" style="color:var(--text-3)"></i>
-    `;
-    res.appendChild(a);
-  });
+      <div>${body}</div>
+    </div>`;
 }
-function doLogout() {
-  document.getElementById('c-access').style.display='flex';
-  document.getElementById('c-portal').style.display='none';
+
+/* ─── CLIENTE: SALIR ─── */
+function doLogout(){
+  document.getElementById('view-portal').classList.add('hidden');
   document.getElementById('token-input').value='';
-  document.getElementById('token-error').style.display='none';
-}
-function switchView(v) {
-  document.getElementById('view-admin').classList.toggle('active',v==='admin');
-  document.getElementById('view-client').classList.toggle('active',v==='client');
-  document.getElementById('tab-admin').classList.toggle('active',v==='admin');
-  document.getElementById('tab-client').classList.toggle('active',v==='client');
-  if(v==='client'){
-    const tk=new URLSearchParams(window.location.search).get('token');
-    if(tk){document.getElementById('token-input').value=tk;doAccess();}
+  document.getElementById('token-err').style.display='none';
+  if(IS_ADMIN && adminPanelOpen){
+    showAdmin();
+  } else {
+    showClientAccess();
   }
 }
-function showToast(msg) {
-  document.getElementById('toast-msg').textContent=msg;
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
-}
-loadDB();renderProducts();
-const urlToken=new URLSearchParams(window.location.search).get('token');
-if(urlToken)switchView('client');
 </script>
 </body>
 </html>
