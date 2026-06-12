@@ -70,7 +70,7 @@
       border: 1px solid var(--border-md); border-radius: var(--r);
       font-size: 15px; font-family: 'Courier New', monospace;
       letter-spacing: .1em; color: var(--t1); background: #f9f9fb;
-      text-transform: uppercase; transition: border-color .15s;
+      transition: border-color .15s;
     }
     .key-wrap input:focus { outline: none; border-color: var(--ht); }
     .key-wrap input::placeholder { color: var(--t3); font-size: 13px; letter-spacing: .04em; font-family: var(--font); }
@@ -282,7 +282,7 @@
 /* ══════════════════════════════════════
    CLAVE ADMIN — solo tú la conoces
    ══════════════════════════════════════ */
-const ADMIN_KEY = 'Skanhawk_247+';
+const ADMIN_KEY = 'SKANHAWK_247+';
 
 /* ── STORAGE ── */
 let DB = { products: [] };
@@ -333,8 +333,8 @@ function doLogin(){
   const err = document.getElementById('login-err');
   err.style.display = 'none';
 
-  // Admin — comparación exacta, sensible a mayúsculas y símbolos
-  if(raw === ADMIN_KEY){
+  // Admin — comparar en mayúsculas para evitar problemas de capitalización
+  if(raw.toUpperCase() === ADMIN_KEY){
     document.getElementById('admin-banner').classList.remove('hidden');
     showOnly('view-admin');
     renderAdmin();
