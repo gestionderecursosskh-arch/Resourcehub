@@ -1,276 +1,186 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkanHawk — Portal de Recursos</title>
-  <style>
-    :root {
-      --inn:       #3B122D;
-      --inn2:      #52193F;
-      --ht:        #00809D;
-      --ht-dim:    rgba(0,128,157,0.09);
-      --ht-b:      rgba(0,128,157,0.28);
-      --fresh:     #AC9BA3;
-      --bg:        #f4f4f6;
-      --card:      #ffffff;
-      --border:    rgba(0,0,0,0.08);
-      --border-md: rgba(0,0,0,0.14);
-      --t1:        #1a1a1a;
-      --t2:        #555555;
-      --t3:        #999999;
-      --danger:    #c0392b;
-      --danger-bg: rgba(192,57,43,0.07);
-      --r:         8px;
-      --rl:        12px;
-      --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-text-size-adjust: 100%; }
-    body { font-family: var(--font); background: var(--bg); color: var(--t1); min-height: 100vh; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SkanHawk — Portal de Recursos</title>
+<style>
+:root{
+  --inn:#3B122D; --inn2:#52193F;
+  --ht:#00809D; --ht-dim:rgba(0,128,157,.09); --ht-b:rgba(0,128,157,.28);
+  --bg:#f4f4f6; --card:#fff;
+  --border:rgba(0,0,0,.08); --border-md:rgba(0,0,0,.14);
+  --t1:#1a1a1a; --t2:#555; --t3:#999;
+  --danger:#c0392b; --danger-bg:rgba(192,57,43,.07);
+  --r:8px; --rl:12px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);min-height:100vh}
 
-    /* ── TOPBAR ── */
-    .topbar {
-      display: flex; align-items: center;
-      padding: 0 20px; height: 52px;
-      background: var(--inn);
-      position: sticky; top: 0; z-index: 50;
-    }
-    .brand-name { font-size: 15px; font-weight: 900; letter-spacing: .12em; color: #fff; line-height: 1; }
-    .brand-name span { color: var(--ht); }
-    .brand-sub  { font-size: 9px; font-weight: 400; letter-spacing: .2em; color: rgba(172,155,163,.65); text-transform: uppercase; margin-top: 2px; }
+/* TOPBAR */
+.topbar{display:flex;align-items:center;padding:0 20px;height:52px;background:var(--inn);position:sticky;top:0;z-index:50}
+.brand-name{font-size:15px;font-weight:900;letter-spacing:.12em;color:#fff;line-height:1}
+.brand-name span{color:var(--ht)}
+.brand-sub{font-size:9px;font-weight:400;letter-spacing:.2em;color:rgba(172,155,163,.65);text-transform:uppercase;margin-top:2px}
 
-    /* ── PANTALLA DE LOGIN ── */
-    .login-screen {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: calc(100vh - 52px); padding: 32px 16px;
-    }
-    .login-card {
-      width: 100%; max-width: 400px;
-      background: var(--card);
-      border-radius: var(--rl);
-      overflow: hidden;
-      box-shadow: 0 4px 28px rgba(0,0,0,.10);
-    }
-    .login-hdr {
-      background: var(--inn);
-      padding: 32px 28px 26px;
-      text-align: center;
-    }
-    .login-logo { font-size: 22px; font-weight: 900; letter-spacing: .14em; color: #fff; }
-    .login-logo span { color: var(--ht); }
-    .login-tag  { font-size: 9px; font-weight: 400; letter-spacing: .26em; color: rgba(172,155,163,.7); text-transform: uppercase; margin-top: 4px; }
-    .login-line { width: 32px; height: 2px; background: var(--ht); margin: 16px auto 0; border-radius: 2px; }
-    .login-body { padding: 26px 24px 22px; }
-    .login-sub  { font-size: 13px; color: var(--t2); margin-bottom: 16px; line-height: 1.5; }
+/* SHARED */
+.hidden{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--ht);text-transform:uppercase;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:18px;margin-bottom:12px}
+.divider{border:none;border-top:1px solid var(--border);margin:12px 0}
 
-    .key-wrap { display: flex; gap: 8px; }
-    .key-wrap input {
-      flex: 1; padding: 12px 14px;
-      border: 1px solid var(--border-md); border-radius: var(--r);
-      font-size: 15px; font-family: 'Courier New', monospace;
-      letter-spacing: .1em; color: var(--t1); background: #f9f9fb;
-      transition: border-color .15s;
-    }
-    .key-wrap input:focus { outline: none; border-color: var(--ht); }
-    .key-wrap input::placeholder { color: var(--t3); font-size: 13px; letter-spacing: .04em; font-family: var(--font); }
-    .err { font-size: 12px; color: var(--danger); margin-top: 10px; display: none; }
+/* ADMIN BANNER */
+.admin-banner{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:#f0eaf2;border-bottom:1px solid rgba(59,18,45,.12);font-size:12px;color:var(--inn2);font-weight:500}
 
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); font-weight: 500; cursor: pointer; background: transparent; color: var(--t2); transition: all .15s; white-space: nowrap; }
-    .btn:hover { background: #ebebed; }
-    .btn.primary { background: var(--ht); border-color: var(--ht); color: #fff; }
-    .btn.primary:hover { background: #006f8a; }
-    .btn.wine { background: var(--inn); border-color: var(--inn); color: #fff; }
-    .btn.wine:hover { background: var(--inn2); }
-    .btn.danger { border-color: rgba(192,57,43,.25); color: var(--danger); }
-    .btn.danger:hover { background: var(--danger-bg); }
-    .btn.sm { padding: 5px 10px; font-size: 12px; }
-    .btn.ghost { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.75); }
-    .btn.ghost:hover { background: rgba(255,255,255,.2); color: #fff; }
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--inn);border-radius:var(--rl);padding:14px 16px}
+.stat-v{font-size:26px;font-weight:900;color:var(--inn);line-height:1}
+.stat-l{font-size:11px;color:var(--t3);margin-top:4px}
 
-    /* ── SHARED ── */
-    .hidden  { display: none !important; }
-    .wrap    { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
-    .slabel  { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: var(--ht); text-transform: uppercase; margin-bottom: 10px; }
-    .card    { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 18px; margin-bottom: 12px; }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+/* FORM */
+.frow{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.frow label{font-size:10px;color:var(--t3);min-width:86px;padding-top:11px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.frow input{flex:1;padding:9px 12px;border:1px solid var(--border-md);border-radius:var(--r);font-size:13px;font-family:var(--font);color:var(--t1);background:#f9f9fb;transition:border-color .15s}
+.frow input:focus{outline:none;border-color:var(--ht)}
+.frow input::placeholder{color:var(--t3)}
 
-    /* ── ADMIN TOPBAR EXTRA ── */
-    .admin-topbar-extra {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 20px;
-      background: #f0eaf2;
-      border-bottom: 1px solid rgba(59,18,45,.12);
-      font-size: 12px; color: var(--inn2); font-weight: 500;
-    }
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border-md);border-radius:var(--r);font-size:13px;font-family:var(--font);font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .15s}
+.btn:hover{background:#ebebed}
+.btn.primary{background:var(--ht);border-color:var(--ht);color:#fff}
+.btn.primary:hover{background:#006f8a}
+.btn.wine{background:var(--inn);border-color:var(--inn);color:#fff}
+.btn.wine:hover{background:var(--inn2)}
+.btn.danger{border-color:rgba(192,57,43,.25);color:var(--danger)}
+.btn.danger:hover{background:var(--danger-bg)}
+.btn.sm{padding:5px 10px;font-size:12px}
 
-    /* ── STATS ── */
-    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-    .stat { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--inn); border-radius: var(--rl); padding: 14px 16px; }
-    .stat-v { font-size: 26px; font-weight: 900; color: var(--inn); line-height: 1; }
-    .stat-l { font-size: 11px; color: var(--t3); margin-top: 4px; }
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.badge.teal{background:var(--ht-dim);color:var(--ht);border:1px solid var(--ht-b)}
 
-    /* ── FORM ── */
-    .frow { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
-    .frow label { font-size: 10px; color: var(--t3); min-width: 86px; padding-top: 11px; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
-    .frow input { flex: 1; padding: 9px 12px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 13px; font-family: var(--font); color: var(--t1); background: #f9f9fb; transition: border-color .15s; }
-    .frow input:focus { outline: none; border-color: var(--ht); }
-    .frow input::placeholder { color: var(--t3); }
+/* PRODUCT CARD ADMIN */
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:10px;transition:border-color .2s,box-shadow .2s}
+.pcard:hover{border-color:var(--ht-b);box-shadow:0 2px 10px rgba(0,128,157,.06)}
+.pname{font-size:14px;font-weight:700}
+.pdesc-txt{font-size:12px;color:var(--t3);margin-top:2px}
+.xbtn{background:none;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--t3);display:flex;align-items:center;padding:5px 8px;font-size:13px;flex-shrink:0;transition:all .15s}
+.xbtn:hover{border-color:var(--ht);color:var(--ht)}
+.xpanel{border-top:1px solid var(--border);margin-top:14px;padding-top:14px}
 
-    /* ── BADGE ── */
-    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
-    .badge.teal { background: var(--ht-dim); color: var(--ht); border: 1px solid var(--ht-b); }
+/* TOKEN BOX */
+.tbox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--inn);border-radius:var(--r);padding:12px 16px;margin-bottom:12px;flex-wrap:wrap}
+.tlabel{font-size:9px;color:rgba(172,155,163,.8);margin-bottom:5px;letter-spacing:.14em;font-weight:600;text-transform:uppercase}
+.tval{font-family:'Courier New',monospace;font-size:18px;font-weight:700;color:#fff;letter-spacing:.14em}
 
-    /* ── PRODUCT CARD ── */
-    .pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); padding: 16px; margin-bottom: 10px; transition: border-color .2s, box-shadow .2s; }
-    .pcard:hover { border-color: var(--ht-b); box-shadow: 0 2px 10px rgba(0,128,157,.06); }
-    .pname { font-size: 14px; font-weight: 700; }
-    .pdesc-txt { font-size: 12px; color: var(--t3); margin-top: 2px; }
-    .xbtn { background: none; border: 1px solid var(--border); border-radius: var(--r); cursor: pointer; color: var(--t3); display: flex; align-items: center; padding: 5px 8px; font-size: 13px; flex-shrink: 0; transition: all .15s; }
-    .xbtn:hover { border-color: var(--ht); color: var(--ht); }
-    .xpanel { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
+/* RESOURCE ROW ADMIN */
+.rrow-admin{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f9f9fb;border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px;font-size:13px}
+.addrow{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.addrow input{flex:1;min-width:100px;padding:7px 10px;border:1px solid var(--border-md);border-radius:var(--r);font-size:12px;font-family:var(--font);color:var(--t1);background:#f9f9fb}
+.addrow input:focus{outline:none;border-color:var(--ht)}
+.addrow input::placeholder{color:var(--t3)}
+.addrow select{padding:7px 8px;border:1px solid var(--border-md);border-radius:var(--r);font-size:12px;font-family:var(--font);color:var(--t1);background:#f9f9fb}
+.hint{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.6}
 
-    /* ── TOKEN BOX ── */
-    .tbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--inn); border-radius: var(--r); padding: 12px 16px; margin-bottom: 10px; flex-wrap: wrap; }
-    .tlabel { font-size: 9px; color: rgba(172,155,163,.8); margin-bottom: 5px; letter-spacing: .14em; font-weight: 600; text-transform: uppercase; }
-    .tval { font-family: 'Courier New', monospace; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: .14em; }
+/* EMPTY */
+.empty{text-align:center;padding:48px 20px;color:var(--t3);font-size:13px}
+.empty .eicon{font-size:40px;margin-bottom:10px;display:block}
 
+/* LOGIN */
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 52px);padding:32px 16px}
+.login-card{width:100%;max-width:400px;background:var(--card);border-radius:var(--rl);overflow:hidden;box-shadow:0 4px 28px rgba(0,0,0,.10)}
+.login-hdr{background:var(--inn);padding:32px 28px 26px;text-align:center}
+.login-logo{font-size:22px;font-weight:900;letter-spacing:.14em;color:#fff}
+.login-logo span{color:var(--ht)}
+.login-tag{font-size:9px;font-weight:400;letter-spacing:.26em;color:rgba(172,155,163,.7);text-transform:uppercase;margin-top:4px}
+.login-line{width:32px;height:2px;background:var(--ht);margin:16px auto 0;border-radius:2px}
+.login-body{padding:26px 24px 22px}
+.login-sub{font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.5}
+.key-wrap{display:flex;gap:8px}
+.key-wrap input{flex:1;padding:12px 14px;border:1px solid var(--border-md);border-radius:var(--r);font-size:15px;font-family:'Courier New',monospace;letter-spacing:.1em;color:var(--t1);background:#f9f9fb;transition:border-color .15s}
+.key-wrap input:focus{outline:none;border-color:var(--ht)}
+.key-wrap input::placeholder{color:var(--t3);font-size:13px;letter-spacing:.04em;font-family:var(--font)}
+.err{font-size:12px;color:var(--danger);margin-top:8px;display:none}
 
+/* CLIENT PORTAL */
+.portal-wrap{max-width:720px;margin:0 auto;padding:24px 16px}
+.phdr{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:22px}
+.peyebrow{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ht);margin-bottom:4px}
+.ptitle{font-size:20px;font-weight:900;color:var(--t1)}
+.psubtitle{font-size:12px;color:var(--t3);margin-top:3px}
+.logout-btn{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t3);cursor:pointer;background:none;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font);padding:7px 13px;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.logout-btn:hover{color:var(--t1);border-color:var(--border-md)}
 
-    /* ── RESOURCE ROW (admin) ── */
-    .rrow-admin { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f9f9fb; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 6px; font-size: 13px; }
+/* RESOURCE ACCORDION */
+.res-card{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:10px;overflow:hidden}
+.res-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .15s}
+.res-hdr:hover{background:#f7f7f9}
+.res-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.res-icon.pdf  {background:rgba(59,18,45,.09)}
+.res-icon.video{background:var(--ht-dim)}
+.res-icon.image{background:rgba(191,205,217,.25)}
+.res-title{font-size:14px;font-weight:600;flex:1}
+.res-type{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.res-arrow{font-size:12px;color:var(--t3);flex-shrink:0;transition:transform .25s}
+.res-arrow.open{transform:rotate(180deg)}
+.res-body{max-height:0;overflow:hidden;transition:max-height .35s ease;border-top:0px solid var(--border)}
+.res-body.open{max-height:640px;border-top:1px solid var(--border)}
 
-    /* ── ADD RESOURCE ── */
-    .addrow { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-    .addrow input { flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
-    .addrow input:focus { outline: none; border-color: var(--ht); }
-    .addrow input::placeholder { color: var(--t3); }
-    .addrow select { padding: 7px 8px; border: 1px solid var(--border-md); border-radius: var(--r); font-size: 12px; font-family: var(--font); color: var(--t1); background: #f9f9fb; }
-    .hint { font-size: 11px; color: var(--t3); margin-top: 6px; line-height: 1.6; }
+/* EXPAND BUTTON */
+.expand-row{display:flex;justify-content:flex-end;padding:8px 14px 0}
+.expand-btn{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--ht);background:var(--ht-dim);border:1px solid var(--ht-b);border-radius:var(--r);padding:4px 10px;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:background .15s}
+.expand-btn:hover{background:rgba(0,128,157,.16)}
 
-    /* ── EMPTY ── */
-    .empty { text-align: center; padding: 48px 20px; color: var(--t3); font-size: 13px; }
-    .empty .eicon { font-size: 40px; margin-bottom: 10px; display: block; }
+/* EMBEDS */
+/* PDF via Google Docs Viewer — SIN interfaz de Drive */
+.embed-pdf{width:100%;height:520px;border:none;display:block;background:#f0f0f0}
 
-    /* ── CLIENT PORTAL ── */
-    .portal-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
-    .phdr { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
-    .peyebrow { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ht); margin-bottom: 4px; }
-    .ptitle { font-size: 20px; font-weight: 900; color: var(--t1); }
-    .psubtitle { font-size: 12px; color: var(--t3); margin-top: 3px; }
-    .logout-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--t3); cursor: pointer; background: none; border: 1px solid var(--border); border-radius: var(--r); font-family: var(--font); padding: 7px 13px; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
-    .logout-btn:hover { color: var(--t1); border-color: var(--border-md); }
+/* VIDEO via Drive preview — inevitable, pero funcional */
+.embed-video{width:100%;aspect-ratio:16/9;border:none;display:block}
 
-    /* res-card styles moved to accordion section */
+/* IMAGEN como <img> directo — SIN iframe, SIN Drive UI */
+.embed-img-wrap{width:100%;background:#f9f9f9;display:flex;align-items:center;justify-content:center;padding:16px;min-height:180px}
+.embed-img{max-width:100%;max-height:460px;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
 
-    /* ── EMBEDS ── */
-    .embed-wrap { position: relative; width: 100%; overflow: hidden; background: var(--card); }
-    .embed-wrap iframe { position: relative; z-index: 1; display: block; }
-    /* Sin bloques blancos — solo bloqueamos clic derecho y arrastre */
-    .embed-shield  { display: none; }
-    .embed-blocker { display: none; }
+/* MODAL PANTALLA COMPLETA */
+.fs-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.94);flex-direction:column}
+.fs-overlay.open{display:flex}
+.fs-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--inn);flex-shrink:0}
+.fs-bar-title{font-size:13px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;margin-right:12px}
+.fs-bar-close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:var(--r);padding:6px 14px;font-size:12px;font-family:var(--font);cursor:pointer;font-weight:500;white-space:nowrap}
+.fs-bar-close:hover{background:rgba(255,255,255,.22)}
+/* PDF e iframe en fullscreen */
+.fs-iframe{flex:1;border:none;width:100%;display:block;background:#1a1a1a}
+/* Imagen en fullscreen */
+.fs-img-wrap{flex:1;display:none;align-items:center;justify-content:center;background:#111;padding:16px}
+.fs-img-wrap img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
 
-    /* PDF via Google Docs Viewer — sin UI de Drive */
-    .embed-pdf  { width: 100%; height: 520px; border: none; display: block; background: #f0f0f0; }
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--inn);color:#fff;padding:10px 18px;border-radius:var(--r);font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:300}
+.toast.show{opacity:1}
 
-    /* Video — Drive preview inevitable, overlay tapa controles externos */
-    .embed-video { width: 100%; aspect-ratio: 16/9; border: none; display: block; position: relative; z-index: 1; }
-    .video-overlay {
-      position: absolute; top: 0; right: 0; left: 0; height: 48px;
-      background: #1a1a1a; z-index: 2; pointer-events: none;
-    }
-
-    /* Imagen como <img> directo — sin iframe, sin Drive UI */
-    .embed-img-wrap { width: 100%; background: #f9f9f9; display: flex; align-items: center; justify-content: center; padding: 12px; min-height: 200px; }
-    .embed-img { max-width: 100%; max-height: 480px; object-fit: contain; display: block; user-select: none; -webkit-user-drag: none; }
-
-    /* ── MODAL PANTALLA COMPLETA ── */
-    .fs-overlay {
-      display: none; position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.92);
-      flex-direction: column;
-    }
-    .fs-overlay.open { display: flex; }
-    .fs-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 16px; background: var(--inn); flex-shrink: 0;
-    }
-    .fs-bar-title { font-size: 13px; font-weight: 600; color: #fff; }
-    .fs-bar-close {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; border-radius: var(--r); padding: 6px 14px;
-      font-size: 12px; font-family: var(--font); cursor: pointer; font-weight: 500;
-    }
-    .fs-bar-close:hover { background: rgba(255,255,255,0.22); }
-    .fs-frame { flex: 1; border: none; width: 100%; display: block; background: #1a1a1a; }
-
-    /* Botón expandir en cada recurso */
-    .expand-btn-res {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 11px; font-weight: 500; color: var(--ht);
-      background: var(--ht-dim); border: 1px solid var(--ht-b);
-      border-radius: var(--r); padding: 4px 10px;
-      cursor: pointer; font-family: var(--font); white-space: nowrap;
-      flex-shrink: 0; transition: background .15s;
-    }
-    .expand-btn-res:hover { background: rgba(0,128,157,0.16); }
-
-    /* ── ACORDEÓN DE RECURSOS ── */
-    .res-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rl); margin-bottom: 10px; overflow: hidden; }
-    .res-card-hdr {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; cursor: pointer;
-      user-select: none; transition: background .15s;
-    }
-    .res-card-hdr:hover { background: #f7f7f9; }
-    .res-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .res-card-icon.pdf   { background: rgba(59,18,45,.09); }
-    .res-card-icon.video { background: var(--ht-dim); }
-    .res-card-icon.image { background: rgba(191,205,217,.25); }
-    .res-card-name { font-size: 14px; font-weight: 600; flex: 1; }
-    .res-card-type { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
-    .res-card-arrow {
-      font-size: 18px; color: var(--t3); flex-shrink: 0;
-      transition: transform .25s; display: flex; align-items: center;
-    }
-    .res-card-arrow.open { transform: rotate(180deg); }
-    .res-card-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height .35s ease;
-      border-top: 0px solid var(--border);
-    }
-    .res-card-body.open {
-      max-height: 600px;
-      border-top: 1px solid var(--border);
-    }
-
-    @media (max-width:600px) {
-      .embed-pdf  { height: 340px; }
-      .res-card-body.open { max-height: 500px; }
-    }
-
-    /* ── TOAST ── */
-    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--inn); color: #fff; padding: 10px 18px; border-radius: var(--r); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100; }
-    .toast.show { opacity: 1; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .stats-row { grid-template-columns: 1fr 1fr; }
-      .stats-row .stat:last-child { grid-column: span 2; }
-      .frow { flex-direction: column; }
-      .frow label { min-width: unset; padding-top: 0; }
-      .tval { font-size: 14px; letter-spacing: .08em; }
-      .embed-pdf { height: 320px; }
-      .ptitle { font-size: 17px; }
-      .phdr { flex-direction: column; }
-      .login-hdr { padding: 24px 20px 20px; }
-      .login-body { padding: 20px 18px 18px; }
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:600px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stats-row .stat:last-child{grid-column:span 2}
+  .frow{flex-direction:column}
+  .frow label{min-width:unset;padding-top:0}
+  .tval{font-size:14px;letter-spacing:.08em}
+  .embed-pdf{height:340px}
+  .res-body.open{max-height:500px}
+  .phdr{flex-direction:column}
+  .login-hdr{padding:24px 20px 20px}
+  .login-body{padding:20px 18px 18px}
+}
+</style>
 </head>
 <body>
 
-<!-- ══ TOPBAR ══ -->
+<!-- TOPBAR -->
 <header class="topbar">
   <div>
     <div class="brand-name">SKAN<span>HAWK</span></div>
@@ -278,13 +188,13 @@
   </div>
 </header>
 
-<!-- ══ ADMIN BANNER (solo visible en admin) ══ -->
-<div id="admin-banner" class="admin-topbar-extra hidden">
+<!-- ADMIN BANNER -->
+<div id="admin-banner" class="admin-banner hidden">
   <span>⚙ Modo administrador</span>
-  <button class="btn sm ghost" style="background:var(--inn);border-color:var(--inn2);color:#fff" onclick="doLogout()">↩ Cerrar sesión</button>
+  <button class="btn sm wine" onclick="doLogout()">↩ Cerrar sesión</button>
 </div>
 
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="view-login" class="login-screen">
   <div class="login-card">
     <div class="login-hdr">
@@ -296,7 +206,7 @@
       <div class="login-sub">Ingresa el código que te enviaron para acceder a tus recursos</div>
       <div class="key-wrap">
         <input id="token-input" placeholder="XXXX-XXXX-XXXX" maxlength="64"
-          oninput="fmtInput(this)" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="off" />
+          onkeydown="if(event.key==='Enter')doLogin()" autocomplete="off"/>
         <button class="btn primary" onclick="doLogin()">Entrar</button>
       </div>
       <div class="err" id="login-err">Código inválido. Verifica el mensaje que recibiste.</div>
@@ -304,7 +214,7 @@
   </div>
 </div>
 
-<!-- ══ PANEL ADMIN ══ -->
+<!-- PANEL ADMIN -->
 <div id="view-admin" class="hidden">
   <div class="wrap">
     <div class="stats-row">
@@ -312,22 +222,20 @@
       <div class="stat"><div class="stat-v" id="s-r">0</div><div class="stat-l">Recursos</div></div>
       <div class="stat"><div class="stat-v" id="s-s">0</div><div class="stat-l">Tokens activos</div></div>
     </div>
-
     <div class="slabel">Nuevo producto</div>
     <div class="card">
-      <div class="frow"><label>Nombre</label><input id="pn" placeholder="Ej: Compresor CA-500" /></div>
-      <div class="frow"><label>Descripción</label><input id="pd" placeholder="Breve descripción del producto" /></div>
+      <div class="frow"><label>Nombre</label><input id="pn" placeholder="Ej: Compresor CA-500"/></div>
+      <div class="frow"><label>Descripción</label><input id="pd" placeholder="Breve descripción del producto"/></div>
       <div style="display:flex;justify-content:flex-end;margin-top:6px">
         <button class="btn primary" onclick="createProduct()">+ Crear producto</button>
       </div>
     </div>
-
     <div class="slabel">Productos registrados</div>
     <div id="plist"></div>
   </div>
 </div>
 
-<!-- ══ PORTAL CLIENTE ══ -->
+<!-- PORTAL CLIENTE -->
 <div id="view-portal" class="hidden">
   <div class="portal-wrap">
     <div class="phdr">
@@ -347,30 +255,30 @@
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <!-- MODAL PANTALLA COMPLETA -->
 <div class="fs-overlay" id="fs-overlay">
   <div class="fs-bar">
     <span class="fs-bar-title" id="fs-title"></span>
     <button class="fs-bar-close" onclick="closeFS()">✕ Cerrar</button>
   </div>
-  <iframe class="fs-frame" id="fs-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-  <div id="fs-img" style="display:none;flex:1;align-items:center;justify-content:center;background:#111;padding:16px">
-    <img style="max-width:100%;max-height:100%;object-fit:contain" src="" alt="" draggable="false">
+  <iframe class="fs-iframe" id="fs-iframe" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+  <div class="fs-img-wrap" id="fs-img-wrap">
+    <img id="fs-img" src="" alt="" draggable="false"/>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-/* ══════════════════════════════════════
+/* ═══════════════════════════
    CLAVE ADMIN — solo tú la conoces
-   ══════════════════════════════════════ */
+   ═══════════════════════════ */
 const ADMIN_KEY = 'SKANHAWK_247+';
 
 /* ── STORAGE ── */
-let DB = { products: [] };
-function save(){ try{ localStorage.setItem('skanhawk_portal', JSON.stringify(DB)); }catch(e){} }
-function load(){ try{ const d=localStorage.getItem('skanhawk_portal'); if(d) DB=JSON.parse(d); }catch(e){} }
+let DB = {products:[]};
+function save(){try{localStorage.setItem('skanhawk_portal',JSON.stringify(DB))}catch(e){}}
+function load(){try{const d=localStorage.getItem('skanhawk_portal');if(d)DB=JSON.parse(d)}catch(e){}}
 
 /* ── UTILS ── */
 function genToken(){
@@ -378,18 +286,12 @@ function genToken(){
   const s=n=>Array.from({length:n},()=>c[Math.floor(Math.random()*c.length)]).join('');
   return s(4)+'-'+s(4)+'-'+s(4);
 }
-// enlaces directos eliminados — solo token
-function iconEmoji(t){ return t==='pdf'?'📄':t==='video'?'▶':'🖼'; }
-function typeLabel(t){ return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'; }
-
-function fmtInput(input){
-  // Sin formateo automático — el usuario escribe libremente.
-  // Los tokens de producto se normalizan a mayúsculas solo al hacer login.
-}
+function iconEmoji(t){return t==='pdf'?'📄':t==='video'?'▶':'🖼'}
+function typeLabel(t){return t==='pdf'?'Documento PDF':t==='video'?'Video':'Imagen'}
 
 function toast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
+  t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2200);
 }
 function cp(text,msg){
@@ -401,130 +303,109 @@ function cp(text,msg){
   toast(msg||'Copiado');
 }
 
-/* ── VISTAS ── */
+/* ── EXTRACT DRIVE ID ── */
+function getDriveId(url){
+  const m=url.match(/\/file\/d\/([^/?#]+)/);
+  return m?m[1]:null;
+}
+
+/* ── BUILD EMBED URLS ── */
+function buildEmbedData(type, rawUrl){
+  const id = getDriveId(rawUrl);
+  if(!id) return {url:rawUrl, fsUrl:rawUrl, thumbUrl:null};
+
+  if(type==='pdf'){
+    // Google Docs Viewer: muestra PDF sin ninguna interfaz de Drive
+    const viewerUrl = `https://docs.google.com/viewer?url=https://drive.google.com/uc?id%3D${id}&embedded=true`;
+    return {url:viewerUrl, fsUrl:viewerUrl, thumbUrl:null};
+  }
+  if(type==='video'){
+    // Drive preview es la única opción para video
+    const previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+    return {url:previewUrl, fsUrl:previewUrl, thumbUrl:null};
+  }
+  if(type==='image'){
+    // URL directa para <img> — sin iframe, sin Drive UI
+    const directUrl = `https://drive.google.com/uc?export=view&id=${id}`;
+    const thumbUrl  = `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
+    return {url:directUrl, fsUrl:directUrl, thumbUrl:thumbUrl};
+  }
+  return {url:rawUrl, fsUrl:rawUrl, thumbUrl:null};
+}
+
+/* ── VIEWS ── */
 function showOnly(id){
   ['view-login','view-admin','view-portal'].forEach(v=>{
-    document.getElementById(v).classList.toggle('hidden', v!==id);
+    document.getElementById(v).classList.toggle('hidden',v!==id);
   });
 }
 
 /* ── LOGIN ── */
-let exp = null;
+let expAdmin = null;
 
 function doLogin(){
   const raw = document.getElementById('token-input').value.trim();
   const err = document.getElementById('login-err');
-  err.style.display = 'none';
+  err.style.display='none';
 
-  // Admin — comparar en mayúsculas para evitar problemas de capitalización
-  if(raw.toUpperCase() === ADMIN_KEY){
+  if(raw.toUpperCase()===ADMIN_KEY){
     document.getElementById('admin-banner').classList.remove('hidden');
     showOnly('view-admin');
     renderAdmin();
     return;
   }
 
-  // Token de producto — siempre en mayúsculas
   const token = raw.toUpperCase();
   const p = DB.products.find(x=>x.token===token);
-  if(!p){ err.style.display='block'; return; }
+  if(!p){err.style.display='block';return;}
 
-  // Mostrar portal
   document.getElementById('admin-banner').classList.add('hidden');
   showOnly('view-portal');
-  document.getElementById('p-name').textContent = p.name;
-  document.getElementById('p-desc').textContent = p.desc||'';
+  document.getElementById('p-name').textContent  = p.name;
+  document.getElementById('p-desc').textContent  = p.desc||'';
+
   const resEl   = document.getElementById('p-resources');
   const emptyEl = document.getElementById('p-empty');
-  resEl.innerHTML = '';
-  if(!p.resources||!p.resources.length){ emptyEl.classList.remove('hidden'); return; }
+  resEl.innerHTML='';
+
+  if(!p.resources||!p.resources.length){emptyEl.classList.remove('hidden');return;}
   emptyEl.classList.add('hidden');
-  resEl.innerHTML = p.resources.map(buildResCard).join('');
+  resEl.innerHTML = p.resources.map((r,i)=>buildResCard(r,i)).join('');
 }
 
 function doLogout(){
   document.getElementById('admin-banner').classList.add('hidden');
-  document.getElementById('token-input').value = '';
-  document.getElementById('login-err').style.display = 'none';
+  document.getElementById('token-input').value='';
+  document.getElementById('login-err').style.display='none';
   showOnly('view-login');
+  closeFS();
 }
 
-/* ── AUTO-TOKEN desde URL ── */
+/* ── AUTO-TOKEN ── */
 (function(){
   load();
-  const tk = new URLSearchParams(window.location.search).get('token');
-  if(tk){
-    document.getElementById('token-input').value = tk.toUpperCase();
-    doLogin();
-  }
-
-  // Modal pantalla completa
-  window.openFS = function(id, e){
-    e.stopPropagation();
-    const card = document.getElementById('card-' + id);
-    const url  = card ? card.dataset.url  : '';
-    const name = card ? card.dataset.name : '';
-    const type = card ? card.dataset.type : '';
-    if(!url) return;
-    document.getElementById('fs-title').textContent = name;
-    // Para imágenes mostramos <img>, no iframe
-    const frame   = document.getElementById('fs-frame');
-    const imgWrap = document.getElementById('fs-img');
-    if(type === 'image'){
-      frame.style.display = 'none';
-      imgWrap.style.display = 'flex';
-      imgWrap.querySelector('img').src = url;
-    } else {
-      imgWrap.style.display = 'none';
-      frame.style.display = 'block';
-      frame.src = url;
-    }
-    document.getElementById('fs-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
-  window.closeFS = function(){
-    document.getElementById('fs-overlay').classList.remove('open');
-    document.getElementById('fs-frame').src = '';
-    document.body.style.overflow = '';
-  };
-  // Cerrar con ESC
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeFS(); });
-
-  // Acordeón de recursos
-  window.toggleRes = function(id){
-    const body  = document.getElementById('body-'  + id);
-    const arrow = document.getElementById('arrow-' + id);
-    const open  = body.classList.toggle('open');
-    arrow.classList.toggle('open', open);
-  };
-
-  // Deshabilitar clic derecho y arrastre globalmente en vista cliente
-  document.addEventListener('contextmenu', e => {
-    if(!document.getElementById('view-admin').classList.contains('hidden')) return; // admin puede
-    e.preventDefault();
-  });
-  document.addEventListener('dragstart', e => e.preventDefault());
+  const tk=new URLSearchParams(window.location.search).get('token');
+  if(tk){document.getElementById('token-input').value=tk;doLogin();}
 })();
 
-/* ── ADMIN: STATS ── */
+/* ── ADMIN STATS ── */
 function stats(){
-  document.getElementById('s-p').textContent = DB.products.length;
-  document.getElementById('s-r').textContent = DB.products.reduce((s,p)=>s+p.resources.length,0);
-  document.getElementById('s-s').textContent = DB.products.length; // un token por producto
+  document.getElementById('s-p').textContent=DB.products.length;
+  document.getElementById('s-r').textContent=DB.products.reduce((s,p)=>s+p.resources.length,0);
+  document.getElementById('s-s').textContent=DB.products.length;
 }
 
-/* ── ADMIN: RENDER ── */
+/* ── ADMIN RENDER ── */
 function renderAdmin(){
-  const el = document.getElementById('plist');
+  const el=document.getElementById('plist');
   if(!DB.products.length){
     el.innerHTML='<div class="empty"><span class="eicon">📦</span>Aún no hay productos.<br><small>Crea el primero arriba.</small></div>';
-    stats(); return;
+    stats();return;
   }
   el.innerHTML='';
   DB.products.forEach(p=>{
-    const isExp = exp===p.id;
-    const div   = document.createElement('div');
-    div.className='pcard';
+    const isExp=expAdmin===p.id;
+    const div=document.createElement('div');div.className='pcard';
     div.innerHTML=`
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
         <div style="flex:1">
@@ -532,7 +413,7 @@ function renderAdmin(){
           <div class="pdesc-txt">${p.desc||''}</div>
           <div style="margin-top:8px"><span class="badge teal">${p.resources.length} recurso${p.resources.length!==1?'s':''}</span></div>
         </div>
-        <button class="xbtn" onclick="toggle('${p.id}')">${isExp?'▲':'▼'}</button>
+        <button class="xbtn" onclick="toggleAdmin('${p.id}')">${isExp?'▲':'▼'}</button>
       </div>
       ${isExp?`
       <div class="xpanel">
@@ -555,7 +436,7 @@ function renderAdmin(){
             <span style="font-size:16px;flex-shrink:0">${iconEmoji(r.type)}</span>
             <div style="flex:1">
               <div style="font-size:13px;font-weight:500">${r.name}</div>
-              <div style="font-size:11px;color:var(--t3)">${r.type.toUpperCase()}${r.ytid?' · YouTube':r.url?' · '+r.url.slice(0,40)+'…':''}</div>
+              <div style="font-size:11px;color:var(--t3)">${r.type.toUpperCase()}</div>
             </div>
             <button class="btn sm danger" onclick="delRes('${p.id}',${i})">✕</button>
           </div>`).join('')}
@@ -565,13 +446,12 @@ function renderAdmin(){
             <option value="video">Video</option>
             <option value="image">Imagen</option>
           </select>
-          <input id="rn-${p.id}" placeholder="Nombre del recurso" style="flex:1.2" />
-          <input id="ru-${p.id}" placeholder="URL de Drive o YouTube" style="flex:2" />
+          <input id="rn-${p.id}" placeholder="Nombre del recurso" style="flex:1.2"/>
+          <input id="ru-${p.id}" placeholder="URL de Google Drive" style="flex:2"/>
           <button class="btn sm primary" onclick="addRes('${p.id}')">+ Agregar</button>
         </div>
         <p class="hint">
-          Todos los recursos deben venir de Google Drive.<br>
-          Abre el archivo en Drive → clic en <b>Compartir</b> → selecciona <b>"Cualquiera con el enlace puede ver"</b> → copia la URL y pégala aquí.
+          Abre el archivo en Drive → <b>Compartir</b> → <b>"Cualquiera con el enlace puede ver"</b> → copia la URL y pégala aquí.
         </p>
         <div class="divider"></div>
         <button class="btn sm danger" onclick="delProd('${p.id}')">🗑 Eliminar producto</button>
@@ -582,70 +462,41 @@ function renderAdmin(){
   stats();
 }
 
-function toggle(id){ exp=exp===id?null:id; renderAdmin(); }
+function toggleAdmin(id){expAdmin=expAdmin===id?null:id;renderAdmin()}
 
-/* ── ADMIN: CRUD ── */
+/* ── ADMIN CRUD ── */
 function createProduct(){
   const name=document.getElementById('pn').value.trim();
   const desc=document.getElementById('pd').value.trim();
   if(!name){document.getElementById('pn').focus();return;}
-  DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),shared:0,resources:[]});
+  DB.products.push({id:'p'+Date.now(),name,desc,token:genToken(),resources:[]});
   document.getElementById('pn').value='';
   document.getElementById('pd').value='';
-  save(); renderAdmin();
+  save();renderAdmin();
 }
-
 function delProd(id){
   if(!confirm('¿Eliminar este producto y todos sus recursos?'))return;
   DB.products=DB.products.filter(p=>p.id!==id);
-  if(exp===id)exp=null;
-  save(); renderAdmin();
+  if(expAdmin===id)expAdmin=null;
+  save();renderAdmin();
 }
-
 function addRes(pid){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
   const name=document.getElementById('rn-'+pid).value.trim();
-  const url =document.getElementById('ru-'+pid).value.trim();
+  const rawUrl=document.getElementById('ru-'+pid).value.trim();
   const type=document.getElementById('rt-'+pid).value;
-  if(!name||!url)return;
-  // Extraer ID de Drive
-  const driveMatch = url.match(/\/file\/d\/([^/?#]+)/);
-  const driveId = driveMatch ? driveMatch[1] : null;
-
-  let embedUrl = url;
-  let thumbUrl = null;
-
-  if(driveId){
-    if(type==='pdf'){
-      // Google Docs Viewer — muestra el PDF sin NINGUNA interfaz de Drive
-      embedUrl = `https://docs.google.com/viewer?url=https://drive.google.com/uc?id=${driveId}&embedded=true`;
-    }
-    if(type==='video'){
-      // Drive preview es lo único que reproduce video de Drive en iframe
-      // Guardamos el driveId para poder hacer pantalla completa limpia
-      embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
-    }
-    if(type==='image'){
-      // URL directa de la imagen — se carga como <img>, sin iframe, sin Drive UI
-      embedUrl = `https://drive.google.com/uc?export=view&id=${driveId}`;
-      thumbUrl = `https://drive.google.com/thumbnail?id=${driveId}&sz=w800`;
-    }
-  }
-
-  p.resources.push({name, type, url: embedUrl, driveId, thumbUrl});
+  if(!name||!rawUrl)return;
+  const embed=buildEmbedData(type,rawUrl);
+  p.resources.push({name,type,url:embed.url,fsUrl:embed.fsUrl,thumbUrl:embed.thumbUrl});
   document.getElementById('rn-'+pid).value='';
   document.getElementById('ru-'+pid).value='';
-  exp=pid; save(); renderAdmin();
+  expAdmin=pid;save();renderAdmin();
 }
-
 function delRes(pid,idx){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
   p.resources.splice(idx,1);
-  exp=pid; save(); renderAdmin();
+  expAdmin=pid;save();renderAdmin();
 }
-
-
-
 function previewProduct(pid){
   const p=DB.products.find(x=>x.id===pid);if(!p)return;
   document.getElementById('admin-banner').classList.add('hidden');
@@ -657,55 +508,96 @@ function previewProduct(pid){
   resEl.innerHTML='';
   if(!p.resources||!p.resources.length){emptyEl.classList.remove('hidden');return;}
   emptyEl.classList.add('hidden');
-  resEl.innerHTML=p.resources.map(buildResCard).join('');
+  resEl.innerHTML=p.resources.map((r,i)=>buildResCard(r,i)).join('');
 }
 
-/* ── CLIENTE: RENDER RECURSOS ── */
-function buildResCard(r){
-  let body='';
-  if(r.type==='pdf' && r.url){
-    // Google Docs Viewer: PDF limpio, sin barra de Drive
-    body=`<iframe class="embed-pdf" src="${r.url}" loading="lazy" title="${r.name}"></iframe>`;
-  } else if(r.type==='video' && r.url){
-    // Drive preview: única forma de reproducir video de Drive en iframe
-    body=`<div style="position:relative">
-      <iframe class="embed-video" src="${r.url}" allow="autoplay;encrypted-media" loading="lazy"></iframe>
-      <div class="video-overlay"></div>
-    </div>`;
-  } else if(r.type==='image' && r.url){
-    // <img> directo: sin iframe, sin Drive UI, sin botón de expandir
-    const imgSrc = r.thumbUrl || r.url;
-    body=`<div class="embed-img-wrap">
-      <img class="embed-img" src="${imgSrc}" alt="${r.name}"
-        loading="lazy" draggable="false"
+/* ── CLIENT: BUILD RESOURCE CARD ── */
+function buildResCard(r,i){
+  const uid='r'+Date.now()+i+Math.random().toString(36).slice(2,6);
+  let bodyHtml='';
+
+  if(r.type==='pdf'){
+    // Google Docs Viewer — sin interfaz de Drive, sin botón de expandir
+    bodyHtml=`<iframe class="embed-pdf" src="${r.url}" title="${r.name}" loading="lazy"></iframe>`;
+  } else if(r.type==='video'){
+    // Drive preview — única opción para video de Drive
+    bodyHtml=`<iframe class="embed-video" src="${r.url}" title="${r.name}"
+      allow="autoplay;encrypted-media" loading="lazy" allowfullscreen></iframe>`;
+  } else if(r.type==='image'){
+    // <img> directo — sin iframe, sin Drive UI
+    const src=r.thumbUrl||r.url;
+    bodyHtml=`<div class="embed-img-wrap">
+      <img class="embed-img" src="${src}" alt="${r.name}" loading="lazy" draggable="false"
         onerror="this.src='${r.url}'">
     </div>`;
-  } else if(r.url){
-    body=`<div class="embed-open"><a href="${r.url}" target="_blank" rel="noopener">Abrir recurso →</a></div>`;
   }
-      const id = 'res-' + Math.random().toString(36).slice(2,8);
-    return `
-    <div class="res-card" id="card-${id}" data-url="${r.url}" data-name="${r.name}" data-type="${r.type}">
-      <div class="res-card-hdr" onclick="toggleRes('${id}')">
-        <div class="res-card-icon ${r.type}">${iconEmoji(r.type)}</div>
-        <div style="flex:1">
-          <div class="res-card-name">${r.name}</div>
-          <div class="res-card-type">${typeLabel(r.type)}</div>
-        </div>
-        <div class="res-card-arrow" id="arrow-${id}">&#9660;</div>
+
+  return `
+  <div class="res-card">
+    <div class="res-hdr" onclick="toggleRes('${uid}')">
+      <div class="res-icon ${r.type}">${iconEmoji(r.type)}</div>
+      <div style="flex:1">
+        <div class="res-title">${r.name}</div>
+        <div class="res-type">${typeLabel(r.type)}</div>
       </div>
-      <div class="res-card-body" id="body-${id}">
-        <div style="display:flex;justify-content:flex-end;padding:8px 14px 0">
-          <button class="expand-btn-res" onclick="openFS('${id}',event)">⛶ Pantalla completa</button>
-        </div>
-        <div class="embed-wrap" oncontextmenu="return false">
-          <div class="embed-shield"></div>
-          <div class="embed-blocker"></div>
-          ${body}
-        </div>
+      <div class="res-arrow" id="arr-${uid}">▼</div>
+    </div>
+    <div class="res-body" id="bdy-${uid}">
+      <div class="expand-row">
+        <button class="expand-btn" onclick="openFS(event,'${r.type}','${r.fsUrl||r.url}','${r.name.replace(/'/g,"\\'")}','${r.thumbUrl||r.url}')">
+          ⛶ Pantalla completa
+        </button>
       </div>
-    </div>`;
+      ${bodyHtml}
+    </div>
+  </div>`;
 }
+
+function toggleRes(uid){
+  const bdy=document.getElementById('bdy-'+uid);
+  const arr=document.getElementById('arr-'+uid);
+  const open=bdy.classList.toggle('open');
+  arr.classList.toggle('open',open);
+}
+
+/* ── FULLSCREEN MODAL ── */
+function openFS(e,type,url,name,imgUrl){
+  e.stopPropagation();
+  document.getElementById('fs-title').textContent=name;
+  const iframe=document.getElementById('fs-iframe');
+  const imgWrap=document.getElementById('fs-img-wrap');
+  const img=document.getElementById('fs-img');
+
+  if(type==='image'){
+    iframe.style.display='none';
+    iframe.src='';
+    imgWrap.style.display='flex';
+    img.src=imgUrl||url;
+    img.alt=name;
+  } else {
+    imgWrap.style.display='none';
+    img.src='';
+    iframe.style.display='block';
+    iframe.src=url;
+  }
+  document.getElementById('fs-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeFS(){
+  document.getElementById('fs-overlay').classList.remove('open');
+  document.getElementById('fs-iframe').src='';
+  document.getElementById('fs-img').src='';
+  document.body.style.overflow='';
+}
+
+// Cerrar modal con ESC
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFS()});
+
+// Bloquear clic derecho en vista cliente
+document.addEventListener('contextmenu',e=>{
+  if(document.getElementById('view-admin').classList.contains('hidden'))e.preventDefault();
+});
+document.addEventListener('dragstart',e=>e.preventDefault());
 </script>
 </body>
 </html>
