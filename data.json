@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": "p001",
+      "name": "Nombre del producto 1",
+      "desc": "Descripción breve del producto",
+      "token": "XXXX-XXXX-XXXX",
+      "resources": [
+        {
+          "name": "Manual de usuario",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+        },
+        {
+          "name": "Video de instalación",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+        },
+        {
+          "name": "Diagrama de piezas",
+          "type": "image",
+          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+        }
+      ]
+    },
+    {
+      "id": "p002",
+      "name": "Nombre del producto 2",
+      "desc": "Descripción breve del producto",
+      "token": "YYYY-YYYY-YYYY",
+      "resources": [
+        {
+          "name": "Ficha técnica",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+        }
+      ]
+    }
+  ]
+}
