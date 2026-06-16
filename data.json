@@ -4,7 +4,7 @@
       "id": "p001",
       "name": "Iconics",
       "desc": "Descripción breve del producto",
-      "token": "XXXX-XXXX-XXXX",
+      "token": "C5V7-3DFF-09GH",
       "resources": [
         {
           "name": "Manual de usuario - Supervisor",
@@ -45,16 +45,55 @@
     },
     {
       "id": "p002",
-      "name": "Nombre del producto 2",
+      "name": "SkanMonitor",
       "desc": "Descripción breve del producto",
-      "token": "YYYY-YYYY-YYYY",
+      "token": "88SK-G90H-2GL8",
       "resources": [
         {
-          "name": "Ficha técnica",
+          "name": "Guía rápida exportación de data y pruebas presión",
           "type": "pdf",
-          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+          "url": "https://drive.google.com/file/d/1FjbjD3ehDgou2qSzVg4CyPUzPaQ_oYzi/view?usp=drive_link"
+        },
+        {
+          "name": "Guía rápida SkamMonitor",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/1e7_IAVH1MoGChHxDV7zCrmJJiS1dR96o/view?usp=drive_link"
+        },
+        {
+          "name": "Instructivo SkamMonitor",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/1OHpsvN2ZEQq_sk2kaVkLHxvF96tpnPMN/view?usp=drive_link"
         }
       ]
-    }
+    },
+    {
+      "id": "p003",
+      "name": "SkanRig",
+      "desc": "Descripción breve del producto",
+      "token": "L907-SD23-114G",
+      "resources": [
+        {
+          "name": "Instructivo SkanRig",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/1CH1CbQ3U01xhcSnwwlnFKdd6_s1dox0G/view?usp=drive_link"
+        }
+       ]
+    },
+    {
+      "id": "p004",
+      "name": "SkanView",
+      "desc": "Descripción breve del producto",
+      "token": "3D45-FFFF-7H8L",
+      "resources": [
+        {
+          "name": "Guía rápida SkanView",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/15kRWxExREJVbQ8Tgf0fAkAwgdr4P4SCP/view?usp=drive_link"
+        },
+        {
+          "name": "Instructivo SkanView",
+          "type": "pdf",
+          "url": "https://drive.google.com/file/d/11-EUNKlRk6_ILTxMKruVtOqMDSnedtLc/view?usp=drive_link"
+        }
   ]
 }
