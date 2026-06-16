@@ -2,24 +2,44 @@
   "products": [
     {
       "id": "p001",
-      "name": "Nombre del producto 1",
+      "name": "Iconics",
       "desc": "Descripción breve del producto",
       "token": "XXXX-XXXX-XXXX",
       "resources": [
         {
-          "name": "Manual de usuario",
+          "name": "Manual de usuario - Supervisor",
           "type": "pdf",
-          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+          "url": "https://drive.google.com/file/d/13tmS69GK-HIgu48IhvtxNfG1qqeQEp3N/view?usp=sharing"
         },
         {
-          "name": "Video de instalación",
+          "name": "Configuración de actividades",
           "type": "video",
-          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+          "url": "https://drive.google.com/file/d/1M0BEIeaj17AcrsSWWWy76jLZa_GhWKZb/view?usp=drive_link"
         },
         {
-          "name": "Diagrama de piezas",
-          "type": "image",
-          "url": "https://drive.google.com/file/d/TU_ID_DE_DRIVE/view"
+          "name": "Configuración pozo",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/1rVaO5N-jFvVAAlqBvu8e3S-N3V1ZR_mp/view?usp=drive_link"
+        },
+        {
+          "name": "Menú principal y submódulos",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/1YlLwNuBdeFWOTAEhxWgNR9DIWK2B9niU/view?usp=drive_link"
+        },
+        {
+          "name": "Opciones de visualización",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/1j6geZWy3CMatITnm0Icr84hEUSYRWkpj/view?usp=drive_link"
+        },
+        {
+          "name": "Pantalla principal mesa",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/1iDpX_pbE1XwKGU2qDlPknOt0BtLpUun2/view?usp=drive_link"
+        },
+        {
+          "name": "Set mesa",
+          "type": "video",
+          "url": "https://drive.google.com/file/d/15-4sny3vp4cEpMto0Yumf3gBb2uh0ly7/view?usp=drive_link"
         }
       ]
     },
